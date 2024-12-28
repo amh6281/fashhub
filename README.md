@@ -6,7 +6,7 @@ app
 │   ├── @modal                 # 패러렐 라우트
 │   │   ├── default.tsx        # 패러렐 라우트의 기본 페이지 컴포넌트, 패러렐 라우트 바로 하위 deps에 Page가 없고 한 deps 더 아래 Page가 있을 때 사용
 │   │   ├── (.)flow            # 인터셉팅 라우트 디렉토리
-│   │   │   └── signup         # 회원가입 관련 인터셉팅 라우트. 즉, localhost:3000/flow/signup으로 이동 시 인터셉팅 된 (.)flow/signup/page.tsx가 렌더링
+│   │   │   └── signup         # 회원가입 관련 인터셉팅 라우트. 즉, localhost:3000/flow/signup으로 이동 시 인터셉팅 된 (.)flow/signup/page.tsx가 렌더링, 뒷배경은 (public)의 page.tsx
 │   │   │       └── page.tsx   # 회원가입 페이지 컴포넌트
 │   ├── flow                   # 일반 라우트 디렉토리
 │   │   └── signup             # 회원가입 페이지 디렉토리
