@@ -1,0 +1,31 @@
+{
+  // 여러 ESLint 설정을 확장합니다.
+  "extends": [
+    "next/core-web-vitals", // Next.js의 핵심 웹 바이탈 규칙
+    "next", // Next.js 기본 규칙
+    "next/typescript", // Next.js의 TypeScript 규칙
+    "standard", // JavaScript Standard Style 규칙
+    "prettier" // Prettier와 충돌하는 ESLint 규칙을 비활성화
+  ],
+  // 추가적인 ESLint 플러그인
+  "plugins": [
+    "react", // React 관련 규칙
+    "react-hooks", // React Hooks 관련 규칙
+    "jsx-a11y", // 접근성 관련 규칙
+    "import" // 모듈 import 관련 규칙
+  ],
+  // 사용자 정의 규칙을 설정합니다.
+  "rules": {
+    "no-undef": "off", // 정의되지 않은 변수 사용을 비활성화
+    "react/react-in-jsx-scope": "off", // Next.js에서는 필요 없음
+    "react-hooks/rules-of-hooks": "error", // Hooks 규칙 검사
+    "react-hooks/exhaustive-deps": "warn", // effect dependencies 검사
+    "jsx-a11y/anchor-is-valid": "off" // Next.js의 <Link> 태그와 충돌 방지
+  },
+  // React 버전을 자동으로 감지합니다.
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
