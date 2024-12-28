@@ -31,7 +31,7 @@ const MainPage = () => {
       {/* 회원가입 및 로그인 버튼 */}
       <div className='flex space-x-4'>
         <Button className='h-12 w-[100px] px-6 py-3 text-white'>
-          <Link href='/signup'>회원가입</Link>
+          <Link href='/flow/signup'>회원가입</Link>
         </Button>
         <Button
           variant='outline'
