@@ -5,10 +5,10 @@ interface LayoutProps {
 
 const Layout = ({ children, modal }: LayoutProps) => {
   return (
-    <div>
+    <>
       {children}
       {modal}
-    </div>
+    </>
   );
 };
 
