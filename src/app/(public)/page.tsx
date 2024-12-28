@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const Home = () => {
+const MainPage = () => {
   return (
     <div className='flex min-h-screen flex-col items-center justify-center bg-gray-50'>
       {/* 로고 */}
@@ -44,4 +44,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MainPage;
