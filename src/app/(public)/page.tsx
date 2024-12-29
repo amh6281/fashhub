@@ -37,7 +37,7 @@ const MainPage = () => {
           variant='outline'
           className='h-12 w-[100px] px-6 py-3 text-[#241e1f]'
         >
-          <Link href='/login'>로그인</Link>
+          <Link href='/flow/login'>로그인</Link>
         </Button>
       </div>
     </div>
