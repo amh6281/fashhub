@@ -8,21 +8,17 @@ export const metadata: Metadata = {
 
 const NotFound = () => {
   return (
-    <div className='flex flex-col items-center justify-center h-screen bg-gray-50 text-center relative'>
-      <div
-        className='absolute inset-0 bg-cover bg-center opacity-10'
-        style={{ backgroundImage: "url('/images/background-pattern.png')" }}
-      ></div>
-      <h1 className='text-5xl font-extrabold text-gray-800 mb-6'>
+    <div className='relative flex h-screen flex-col items-center justify-center bg-gray-50 text-center'>
+      <h1 className='mb-6 text-5xl font-extrabold text-gray-800'>
         Oops! Style Not Found.
       </h1>
-      <p className='text-gray-500 mb-8 text-lg'>
+      <p className='mb-8 text-lg text-gray-500'>
         찾으시는 페이지를 찾을 수 없습니다. <br /> 최신 트렌드와 스타일을
         확인하려면 메인으로 돌아가세요!
       </p>
       <Link
         href='/'
-        className='flex items-center justify-center rounded-full bg-black text-white h-12 px-8 shadow-lg hover:bg-gray-800 transition-colors'
+        className='flex h-12 items-center justify-center rounded-full bg-black px-8 text-white shadow-lg transition-colors hover:bg-gray-800'
       >
         <span>메인 페이지로 돌아가기</span>
       </Link>
