@@ -1,9 +1,15 @@
+'use client';
+
 import { menuList } from '@/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import { useSelectedLayoutSegment } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const LeftBar = () => {
+  const segment = useSelectedLayoutSegment();
+
   return (
     <div className='sticky top-0 flex h-screen flex-col justify-between pb-8 pt-2'>
       <div className='flex flex-col items-start gap-4 text-lg'>
@@ -15,12 +21,12 @@ const LeftBar = () => {
         <div className='flex w-full flex-col gap-4'>
           {menuList.map((item) => (
             <Button
-              variant='ghost'
+              variant={segment === item.link ? 'secondary' : 'ghost'}
               key={item.id}
               className='w-full rounded-full'
             >
               <Link
-                href={item.link}
+                href={`/${item.link}`}
                 className='flex w-full items-center gap-4 text-gray-700'
               >
                 <Image
@@ -30,13 +36,20 @@ const LeftBar = () => {
                   height={24}
                   className='object-contain'
                 />
-                <span className='text-[16px] font-medium'>{item.name}</span>
+                <span
+                  className={cn(
+                    'text-[16px] font-medium',
+                    segment === item.link && 'font-bold',
+                  )}
+                >
+                  {item.name}
+                </span>
               </Link>
             </Button>
           ))}
         </div>
         {/* post */}
-        <Button variant='secondary' className='mt-5 h-10 w-full rounded-full'>
+        <Button variant='ghost' className='mt-5 h-10 w-full rounded-full'>
           <Link
             href='/compose/post'
             className='flex w-full items-center gap-4 text-gray-700'
