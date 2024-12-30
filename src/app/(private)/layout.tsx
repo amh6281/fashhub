@@ -1,4 +1,4 @@
-import { LeftBar } from '@/components/Layout';
+import { LeftBar, RightBar } from '@/components/Layout';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,7 +15,9 @@ const Layout = ({ children, modal }: LayoutProps) => {
         {children}
         {modal}
       </div>
-      <div className='ml-8 flex flex-1'>rightbar</div>
+      <div className='mx-8 flex flex-1'>
+        <RightBar />
+      </div>
     </div>
   );
 };
