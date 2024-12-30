@@ -1,10 +1,11 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useCurrentTab } from '@/store/tab';
 
 const Tab = () => {
-  const [activeTab, setActiveTab] = useState('rec');
+  const activeTab = useCurrentTab((state) => state.activeTab);
+  const setActiveTab = useCurrentTab((state) => state.setActiveTab);
 
   return (
     <div className='sticky top-0 z-10 flex justify-center border-b border-gray-300 px-4 py-3 backdrop-blur-sm'>
@@ -13,8 +14,9 @@ const Tab = () => {
         <span
           className={cn(
             'text-base font-medium text-gray-600 transition-colors group-hover:text-blue-500',
-            activeTab === 'rec' && 'text-blue-500',
+            activeTab === 'rec' && 'font-bold text-blue-500',
           )}
+          onClick={() => setActiveTab('rec')}
         >
           추천
         </span>
@@ -30,8 +32,9 @@ const Tab = () => {
         <span
           className={cn(
             'text-base font-medium text-gray-600 transition-colors group-hover:text-blue-500',
-            activeTab === 'fol' && 'text-blue-500',
+            activeTab === 'fol' && 'font-bold text-blue-500',
           )}
+          onClick={() => setActiveTab('fol')}
         >
           팔로잉
         </span>
