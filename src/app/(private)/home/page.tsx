@@ -1,10 +1,11 @@
-import { PostForm, Tab } from '@/components/Home';
+import { Post, PostForm, Tab } from '@/components/Home';
 
 const Home = () => {
   return (
     <div className=''>
       <Tab />
       <PostForm />
+      <Post />
     </div>
   );
 };
