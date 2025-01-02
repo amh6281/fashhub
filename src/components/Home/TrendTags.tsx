@@ -3,7 +3,7 @@ import Link from 'next/link';
 const TrendTags = () => {
   return (
     <div className='flex flex-col gap-3 rounded-2xl border-[1px] border-gray-300 p-4'>
-      <h1 className='text-xl font-bold'>무슨 일이 일어나고 있나요?</h1>
+      <h1 className='text-xl font-bold'>오늘의 패션</h1>
       {/* trend */}
       <Link href='/'>
         <span className='text-sm text-gray-400'>실시간 트렌드</span>
