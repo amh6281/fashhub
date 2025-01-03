@@ -2,15 +2,17 @@ import { UserCircle } from '@phosphor-icons/react/dist/ssr';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+import PostInteractions from './PostInteractions';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 const Post = ({ type }: { type?: 'status' | 'comment' }) => {
   return (
-    <div className='border-cool-400 hover:bg-cool-200 border-y-[1px] p-4 transition-colors'>
+    <div className='border-y-[1px] border-cool-400 p-4 transition-colors hover:bg-cool-200'>
       {/* post type */}
-      <div className='text-cool-500 from-bold mb-2 flex items-center gap-2 text-sm'>
+      <div className='from-bold mb-2 flex items-center gap-2 text-sm text-cool-500'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='18'
@@ -58,7 +60,9 @@ const Post = ({ type }: { type?: 'status' | 'comment' }) => {
                   @mmmh_0803
                 </span>
                 {type !== 'status' && (
-                  <span className='text-cool-600'>1 day ago</span>
+                  <span className='text-sm text-cool-600'>
+                    {dayjs().fromNow(true)}
+                  </span>
                 )}
               </div>
             </Link>
@@ -73,8 +77,9 @@ const Post = ({ type }: { type?: 'status' | 'comment' }) => {
             </p>
           </Link>
           {type === 'status' && (
-            <span className='text-textGray'>8:41 PM · Dec 5, 2024</span>
+            <span className='text-cool-600'>8:41 PM · Dec 5, 2024</span>
           )}
+          <PostInteractions />
         </div>
       </div>
     </div>
