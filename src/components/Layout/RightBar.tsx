@@ -1,5 +1,5 @@
 import React from 'react';
-import { Recommendations, SearchBar, TrendTags } from '../Home';
+import { Recommendations, SearchBar, TrendTags } from '../common';
 
 const RightBar = () => {
   return (
