@@ -30,7 +30,7 @@ const LeftBar = () => {
                 className='flex w-full items-center gap-4 text-gray-700'
               >
                 <Image
-                  src={`icons/${item.icon}`}
+                  src={`/icons/${item.icon}`}
                   alt={item.name}
                   width={24}
                   height={24}
