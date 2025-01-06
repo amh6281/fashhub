@@ -1,16 +1,15 @@
-import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
+'use client';
+
+import { usePathname } from 'next/navigation';
+import SearchFilter from './SearchFilter';
+import SearchInput from './SearchInput';
 
 const SearchBar = () => {
-  return (
-    <div className='flex items-center gap-4 rounded-full bg-gray-100 px-4 py-2'>
-      <MagnifyingGlass size={16} />
-      <input
-        type='text'
-        placeholder='검색'
-        className='bg-transparent outline-none'
-      />
-    </div>
-  );
+  const pathname = usePathname();
+
+  if (pathname === '/explore') return null;
+  if (pathname === '/search') return <SearchFilter />;
+  return <SearchInput />;
 };
 
 export default SearchBar;
