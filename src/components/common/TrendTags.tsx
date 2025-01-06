@@ -1,6 +1,13 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const TrendTags = () => {
+  const pathname = usePathname();
+
+  if (pathname === '/explore') return null;
+
   return (
     <div className='flex flex-col gap-3 rounded-2xl border-[1px] border-gray-300 p-4'>
       <h1 className='text-xl font-bold'>오늘의 패션</h1>
