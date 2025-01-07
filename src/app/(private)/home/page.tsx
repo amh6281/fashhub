@@ -1,4 +1,5 @@
-import { Post, PostForm, Tab } from '@/components/Home';
+import { Post } from '@/components/common';
+import { PostForm, Tab } from '@/components/Home';
 
 const Home = () => {
   return (

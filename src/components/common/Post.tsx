@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import PostInteractions from './PostInteractions';
+import PostInteractions from '../Home/PostInteractions';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
