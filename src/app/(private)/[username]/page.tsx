@@ -1,8 +1,7 @@
-import { Post } from '@/components/common';
+import { BackButton, Post } from '@/components/common';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
-  ArrowLeft,
   Calendar,
   DotsThreeCircle,
   EnvelopeSimple,
@@ -11,16 +10,13 @@ import {
   UserCircle,
 } from '@phosphor-icons/react/dist/ssr';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const UserPage = () => {
   return (
     <div className='min-h-screen bg-gray-50'>
       {/* profile title */}
       <div className='sticky top-0 z-10 flex items-center gap-4 border-b-[1px] border-gray-300 p-4 backdrop-blur-md'>
-        <Link href='/'>
-          <ArrowLeft size={24} className='text-gray-600 hover:text-black' />
-        </Link>
+        <BackButton />
         <h1 className='text-lg font-bold text-gray-900'>@mmmh_0803</h1>
       </div>
 
