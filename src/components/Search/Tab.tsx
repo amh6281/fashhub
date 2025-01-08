@@ -8,15 +8,16 @@ const Tab = () => {
   const [currentTab, setCurrentTab] = useState('hot');
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  console.log(searchParams);
   const handleHotTab = () => {
     setCurrentTab('hot');
-    // router.push({ search: searchParams.toString() });
+    router.replace(`/search?query=${searchParams.get('query')}`);
   };
 
   const handleNewTab = () => {
     setCurrentTab('new');
-    // router.push({ search: searchParams.toString() });
+    // toString()을 통해 현재 경로 + filter query 추가
+    router.replace(`/search?${searchParams.toString()}&filter=new`);
   };
 
   return (
