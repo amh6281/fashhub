@@ -5,11 +5,31 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import PostArticle from './PostArticle';
 import PostInteractions from './PostInteractions';
+import { faker } from '@faker-js/faker';
+import Image from 'next/image';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 const Post = ({ type }: { type?: 'status' | 'comment' }) => {
+  const dummy = {
+    postId: 1,
+    User: {
+      id: 'musk',
+      nickname: 'Elon Musk',
+      // image:
+      //   'https://pbs.twimg.com/profile_images/1295975423654977537/dHw9JcrK_400x400.jpg',
+    },
+    content:
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, animi. Laborum commodi aliquam alias molestias odio, ab in, reprehenderit excepturi temporibus, ducimus necessitatibus fugiat iure nam voluptas soluta pariatur inventore.',
+    createdAt: new Date(),
+    Images: [] as any[],
+  };
+
+  if (Math.random() > 0.5) {
+    dummy.Images.push({ imageId: 1, src: faker.image.urlLoremFlickr() });
+  }
+
   return (
     <PostArticle>
       {/* post type */}
@@ -75,8 +95,17 @@ const Post = ({ type }: { type?: 'status' | 'comment' }) => {
             reprehenderit excepturi temporibus, ducimus necessitatibus fugiat
             iure nam voluptas soluta pariatur inventore.
           </p>
-          {type === 'status' && (
-            <span className='text-cool-600'>8:41 PM · Dec 5, 2024</span>
+          {dummy.Images && dummy.Images.length > 0 && (
+            <Link
+              href={`/${dummy.User.id}/status/${dummy.postId}/photo/${dummy.Images[0].imageId}`}
+            >
+              <Image
+                src={dummy.Images[0].src}
+                alt='post image'
+                width={500}
+                height={300}
+              />
+            </Link>
           )}
           <PostInteractions />
         </div>
