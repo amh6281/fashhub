@@ -1,4 +1,5 @@
-import { BackButton, Post } from '@/components/common';
+import { BackButton } from '@/components/common';
+import { Post } from '@/components/common/post';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {

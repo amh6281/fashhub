@@ -1,4 +1,5 @@
-import { BackButton, Post, SearchInput } from '@/components/common';
+import { BackButton, SearchInput } from '@/components/common';
+import { Post } from '@/components/common/post';
 import { Tab } from '@/components/Search';
 import React from 'react';
 

@@ -3,14 +3,15 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import PostInteractions from '../Home/PostInteractions';
+import PostArticle from './PostArticle';
+import PostInteractions from './PostInteractions';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 const Post = ({ type }: { type?: 'status' | 'comment' }) => {
   return (
-    <div className='border-y-[1px] border-cool-400 p-4 transition-colors hover:bg-cool-200'>
+    <PostArticle>
       {/* post type */}
       <div className='from-bold mb-2 flex items-center gap-2 text-sm text-cool-500'>
         <svg
@@ -68,21 +69,19 @@ const Post = ({ type }: { type?: 'status' | 'comment' }) => {
             </Link>
           </div>
           {/* text & media */}
-          <Link href='/'>
-            <p className={`${type === 'status' && 'text-lg'}`}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum,
-              animi. Laborum commodi aliquam alias molestias odio, ab in,
-              reprehenderit excepturi temporibus, ducimus necessitatibus fugiat
-              iure nam voluptas soluta pariatur inventore.
-            </p>
-          </Link>
+          <p className={`${type === 'status' && 'text-lg'}`}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum,
+            animi. Laborum commodi aliquam alias molestias odio, ab in,
+            reprehenderit excepturi temporibus, ducimus necessitatibus fugiat
+            iure nam voluptas soluta pariatur inventore.
+          </p>
           {type === 'status' && (
             <span className='text-cool-600'>8:41 PM · Dec 5, 2024</span>
           )}
           <PostInteractions />
         </div>
       </div>
-    </div>
+    </PostArticle>
   );
 };
 
