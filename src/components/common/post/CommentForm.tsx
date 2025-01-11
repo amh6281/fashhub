@@ -2,7 +2,7 @@ import { ImageSquare, UserCircle } from '@phosphor-icons/react/dist/ssr';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
-const Comments = () => {
+const CommentForm = () => {
   return (
     <form className='flex gap-4 border-b border-gray-300 p-4'>
       {/* avatar */}
@@ -35,4 +35,4 @@ const Comments = () => {
   );
 };
 
-export default Comments;
+export default CommentForm;

@@ -1,5 +1,5 @@
 import { BackButton } from '@/components/common';
-import { Post, Comments } from '@/components/common/post';
+import { Post, CommentForm } from '@/components/common/post';
 
 const StatusPage = () => {
   return (
@@ -9,7 +9,7 @@ const StatusPage = () => {
         <h1 className='text-lg font-bold text-gray-900'>게시물</h1>
       </div>
       <Post />
-      <Comments />
+      <CommentForm />
     </>
   );
 };
