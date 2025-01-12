@@ -11,7 +11,11 @@ import Image from 'next/image';
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
-const Post = ({ type }: { type?: 'status' | 'comment' }) => {
+interface PostProps {
+  hideImage?: boolean;
+}
+
+const Post = ({ hideImage }: PostProps) => {
   const dummy = {
     postId: 1,
     User: {
@@ -26,7 +30,7 @@ const Post = ({ type }: { type?: 'status' | 'comment' }) => {
     Images: [] as any[],
   };
 
-  if (Math.random() > 0.5) {
+  if (Math.random() > 0.5 && !hideImage) {
     dummy.Images.push({ imageId: 1, src: faker.image.urlLoremFlickr() });
   }
 
@@ -48,13 +52,9 @@ const Post = ({ type }: { type?: 'status' | 'comment' }) => {
         <span>재게시했습니다.</span>
       </div>
       {/* post content */}
-      <div className={`flex gap-4 ${type === 'status' && 'flex-col'}`}>
+      <div className='flex gap-4'>
         {/* avatar */}
-        <div
-          className={`${
-            type === 'status' && 'hidden'
-          } relative h-10 w-10 overflow-hidden rounded-full`}
-        >
+        <div className='relative h-10 w-10 overflow-hidden rounded-full'>
           <UserCircle size={36} className='text-gray-500' />
         </div>
         {/* content */}
@@ -62,34 +62,21 @@ const Post = ({ type }: { type?: 'status' | 'comment' }) => {
           {/* top */}
           <div className='flex w-full justify-between'>
             <Link href='/' className='flex gap-4'>
-              <div
-                className={`${
-                  type !== 'status' && 'hidden'
-                } relative h-10 w-10 overflow-hidden rounded-full`}
-              >
+              <div className='relative h-10 w-10 overflow-hidden rounded-full'>
                 <UserCircle size={36} className='text-gray-500' />
               </div>
-              <div
-                className={`flex flex-wrap items-center gap-2 ${
-                  type === 'status' && 'flex-col !items-start gap-0'
-                }`}
-              >
+              <div className='flex flex-wrap items-center gap-2'>
                 <h1 className='text-md font-bold hover:underline'>amh6281</h1>
-                <span
-                  className={`text-cool-600 ${type === 'status' && 'text-sm'}`}
-                >
-                  @mmmh_0803
+                <span className='text-cool-600'>@mmmh_0803</span>
+
+                <span className='text-sm text-cool-600'>
+                  {dayjs().fromNow(true)}
                 </span>
-                {type !== 'status' && (
-                  <span className='text-sm text-cool-600'>
-                    {dayjs().fromNow(true)}
-                  </span>
-                )}
               </div>
             </Link>
           </div>
           {/* text & media */}
-          <p className={`${type === 'status' && 'text-lg'}`}>
+          <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum,
             animi. Laborum commodi aliquam alias molestias odio, ab in,
             reprehenderit excepturi temporibus, ducimus necessitatibus fugiat

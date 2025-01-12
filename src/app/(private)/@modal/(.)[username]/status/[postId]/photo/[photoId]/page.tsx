@@ -42,7 +42,7 @@ const PhotoModal = () => {
       <div className='w-[400px] bg-white shadow-lg'>
         <div className='flex h-full flex-col space-y-6 overflow-y-auto p-6'>
           {/* Post Content */}
-          <Post />
+          <Post hideImage />
 
           {/* Comment Form */}
           <div className='sticky bottom-0 bg-white py-4'>
@@ -51,8 +51,8 @@ const PhotoModal = () => {
 
           {/* Additional Posts */}
           <div className='space-y-4'>
-            <Post />
-            <Post />
+            <Post hideImage />
+            <Post hideImage />
           </div>
         </div>
       </div>
