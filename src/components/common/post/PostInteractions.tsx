@@ -9,7 +9,7 @@ const PostInteractions = () => {
 
   return (
     <div className='my-2 flex items-center justify-between gap-4 text-cool-600 lg:gap-16'>
-      <div className='flex flex-1 items-center justify-between'>
+      <div className='flex flex-1 items-center justify-between gap-10'>
         {/* comments */}
         <div
           className={cn(
