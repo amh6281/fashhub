@@ -1,5 +1,5 @@
 import { BackButton } from '@/components/common';
-import { Room } from '@/components/Messages';
+import { Message } from '@/components/Messages';
 
 const Messages = () => {
   return (
@@ -9,8 +9,8 @@ const Messages = () => {
         <BackButton />
         <h1 className='text-lg font-bold text-gray-900'>메세지</h1>
       </div>
-      <Room />
-      <Room />
+      <Message />
+      <Message />
     </div>
   );
 };

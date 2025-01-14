@@ -10,7 +10,7 @@ import Image from 'next/image';
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
-const Room = () => {
+const Message = () => {
   const router = useRouter();
   const user = {
     id: 'hero',
@@ -57,4 +57,4 @@ const Room = () => {
   );
 };
 
-export default Room;
+export default Message;
