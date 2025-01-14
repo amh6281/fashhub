@@ -6,7 +6,7 @@ import 'dayjs/locale/ko';
 import PostArticle from './PostArticle';
 import PostInteractions from './PostInteractions';
 import { faker } from '@faker-js/faker';
-import Image from 'next/image';
+import PostImages from './PostImages';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
@@ -21,8 +21,8 @@ const Post = ({ hideImage }: PostProps) => {
     User: {
       id: 'musk',
       nickname: 'Elon Musk',
-      // image:
-      //   'https://pbs.twimg.com/profile_images/1295975423654977537/dHw9JcrK_400x400.jpg',
+      image:
+        'https://pbs.twimg.com/profile_images/1295975423654977537/dHw9JcrK_400x400.jpg',
     },
     content:
       'lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, animi. Laborum commodi aliquam alias molestias odio, ab in, reprehenderit excepturi temporibus, ducimus necessitatibus fugiat iure nam voluptas soluta pariatur inventore.',
@@ -31,7 +31,11 @@ const Post = ({ hideImage }: PostProps) => {
   };
 
   if (Math.random() > 0.5 && !hideImage) {
-    dummy.Images.push({ imageId: 1, src: faker.image.urlLoremFlickr() });
+    dummy.Images.push(
+      { imageId: 1, src: faker.image.urlLoremFlickr() },
+      { imageId: 2, src: faker.image.urlLoremFlickr() },
+      { imageId: 3, src: faker.image.urlLoremFlickr() },
+    );
   }
 
   return (
@@ -82,18 +86,7 @@ const Post = ({ hideImage }: PostProps) => {
             reprehenderit excepturi temporibus, ducimus necessitatibus fugiat
             iure nam voluptas soluta pariatur inventore.
           </p>
-          {dummy.Images && dummy.Images.length > 0 && (
-            <Link
-              href={`/${dummy.User.id}/status/${dummy.postId}/photo/${dummy.Images[0].imageId}`}
-            >
-              <Image
-                src={dummy.Images[0].src}
-                alt='post image'
-                width={500}
-                height={300}
-              />
-            </Link>
-          )}
+          <PostImages post={dummy} />
           <PostInteractions />
         </div>
       </div>

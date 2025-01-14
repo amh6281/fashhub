@@ -1,20 +1,11 @@
 'use client';
 
+import { PostType } from '@/types/Post';
 import { useRouter } from 'next/navigation';
 
 interface PostArticleProps {
   children: React.ReactNode;
-  post: {
-    postId: number;
-    content: string;
-    User: {
-      id: string;
-      nickname: string;
-      image: string;
-    };
-    createdAt: Date;
-    Images: any[];
-  };
+  post: PostType;
 }
 
 const PostArticle = ({ children, post }: PostArticleProps) => {
