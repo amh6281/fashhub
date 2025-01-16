@@ -4,9 +4,12 @@ import './globals.css';
 import { MSWProvider } from '@/mocks/MSWProvider';
 
 // 서버 환경에서만 실행 (서버사이드 렌더링, 서버 컴포넌트)
-if (process.env.NEXT_RUNTIME === 'nodejs') {
+if (
+  process.env.NEXT_RUNTIME === 'nodejs' &&
+  process.env.NODE_ENV !== 'production'
+) {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { server } = require('@/mocks/server');
+  const { server } = require('@/mocks/http');
   server.listen();
 }
 
