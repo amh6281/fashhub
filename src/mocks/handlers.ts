@@ -1,12 +1,11 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
+import { baseUrl } from '@/config';
 const User = [
   { id: 'elonmusk', nickname: 'Elon Musk', image: '/yRsRRjGO.jpg' },
   { id: 'zerohch0', nickname: '제로초', image: '/5Udwvqim.jpg' },
   { id: 'leoturtle', nickname: '레오', image: faker.image.avatar() },
 ];
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const handlers = [
   http.post(`${baseUrl}/api/login`, () => {
