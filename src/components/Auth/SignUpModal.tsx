@@ -1,44 +1,26 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { baseUrl } from '@/config';
+import { handleSubmit } from '@/handlers/signup';
+import { showMessage } from '@/utils/handleError';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const SignUpModal = () => {
-  // const router = useRouter();
-
-  const handleSubmit = async (formData: FormData) => {
-    'use server';
-
-    if (!formData.get('email')) return { message: 'no_id' };
-    if (!formData.get('password')) return { message: 'no_password' };
-    if (!formData.get('name')) return { message: 'no_name' };
-    if (!formData.get('nickname')) return { message: 'no_nickname' };
-
-    let shouldRedirect = false;
-    try {
-      const res = await fetch(`${baseUrl}/api/users}`, {
-        method: 'post',
-        body: formData,
-        credentials: 'include', // 쿠키 전달 (계정 있는 경우 회원가입X) / 동일 출처, 교차 출처 요청 전송
-      });
-      console.log(res.status);
-      if (res.status === 403) return { message: 'user_exists' };
-      shouldRedirect = true;
-    } catch (err) {
-      console.error(err);
-    }
-    if (shouldRedirect) redirect('/login');
-  };
+  const router = useRouter();
+  const { pending } = useFormStatus();
+  const [state, formAction] = useActionState(handleSubmit, { message: null });
 
   return (
     <Card className='relative w-full max-w-md rounded-lg bg-white p-6 shadow-lg'>
@@ -60,29 +42,18 @@ const SignUpModal = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className='mt-4'>
-        <form onSubmit={handleSubmit}>
+        <form action={formAction}>
           <div className='mb-4 flex flex-col gap-2'>
-            <Input
-              type='email'
-              placeholder='이메일 주소'
-              name='email'
-              required
-            />
-            <Input
-              type='password'
-              placeholder='비밀번호'
-              name='password'
-              required
-            />
-            <Input type='text' placeholder='성명' name='name' required />
-            <Input
-              type='text'
-              placeholder='사용자 이름'
-              name='nickname'
-              required
-            />
+            <Input type='email' placeholder='이메일 주소' name='email' />
+            <Input type='password' placeholder='비밀번호' name='password' />
+            <Input type='text' placeholder='성명' name='name' />
+            <Input type='text' placeholder='사용자 이름' name='nickname' />
           </div>
-          <Button type='submit' className='h-10 w-full px-6 py-3 text-white'>
+          <Button
+            type='submit'
+            className='h-10 w-full px-6 py-3 text-white'
+            disabled={pending}
+          >
             회원가입
           </Button>
         </form>
@@ -95,11 +66,14 @@ const SignUpModal = () => {
             로그인
           </Link>
         </p>
+        <p className='mt-4 text-center text-sm text-red-600'>
+          {showMessage(state?.message)}
+        </p>
       </CardContent>
       <button
         className='absolute right-3 top-3 text-gray-400 hover:text-gray-600'
         aria-label='Close'
-        // onClick={() => router.back()}
+        onClick={() => router.back()}
       >
         ✕
       </button>
