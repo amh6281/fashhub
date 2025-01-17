@@ -1,17 +1,42 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { FormEventHandler, useState } from 'react';
 
 const LoginModal = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const router = useRouter();
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    try {
+      await signIn('credentials', {
+        username,
+        password,
+        redirect: false,
+      });
+      router.replace('/home');
+    } catch (err) {
+      console.error(err);
+      setMessage('로그인에 실패했습니다.');
+    }
+  };
+
   return (
     <Card className='relative w-full max-w-md rounded-lg bg-white p-6 shadow-lg'>
       <CardHeader>
@@ -30,11 +55,20 @@ const LoginModal = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className='mt-4'>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='mb-4 flex flex-col gap-2'>
-            <Input type='email' placeholder='이메일 주소' />
-            <Input type='password' placeholder='비밀번호' />
+            <Input
+              type='text'
+              placeholder='사용자 이름'
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Input
+              type='password'
+              placeholder='비밀번호'
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
+          <Button className='h-10 w-full px-6 py-3 text-white'>로그인</Button>
         </form>
         <p className='mt-6 text-center text-sm text-gray-600'>
           계정이 없으신가요?{' '}
@@ -46,12 +80,10 @@ const LoginModal = () => {
           </Link>
         </p>
       </CardContent>
-      <CardFooter>
-        <Button className='h-10 w-full px-6 py-3 text-white'>로그인</Button>
-      </CardFooter>
       <button
         className='absolute right-3 top-3 text-gray-400 hover:text-gray-600'
         aria-label='Close'
+        onClick={() => router.back()}
       >
         ✕
       </button>

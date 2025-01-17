@@ -8,7 +8,7 @@ const Tab = () => {
   const [currentTab, setCurrentTab] = useState('hot');
   const router = useRouter();
   const searchParams = useSearchParams();
-  console.log(searchParams);
+
   const handleHotTab = () => {
     setCurrentTab('hot');
     router.replace(`/search?query=${searchParams.get('query')}`);
