@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import { MSWProvider } from '@/mocks/MSWProvider';
+import { AuthSession } from '@/components/Auth';
 
 // 서버 환경에서만 실행 (서버사이드 렌더링, 서버 컴포넌트)
 if (
@@ -33,7 +34,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${poppins.variable} font-poppins antialiased`}>
-        <MSWProvider>{children}</MSWProvider>
+        <MSWProvider>
+          <AuthSession>{children}</AuthSession>
+        </MSWProvider>
       </body>
     </html>
   );

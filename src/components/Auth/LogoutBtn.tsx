@@ -14,7 +14,10 @@ const LogoutBtn = () => {
   };
 
   return (
-    <div className='flex items-center justify-between' onClick={handleLogout}>
+    <div
+      className='flex cursor-pointer items-center justify-between'
+      onClick={handleLogout}
+    >
       <div className='flex items-center gap-2'>
         <div className='relative h-10 w-10 overflow-hidden rounded-full'>
           <Image src='/logo.png' alt='logo' width={100} height={100} />
