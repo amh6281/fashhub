@@ -4,7 +4,7 @@ import { signIn } from '@/auth';
 import { baseUrl } from '@/config';
 import { redirect } from 'next/navigation';
 
-export const handleSubmit = async (
+export const signUp = async (
   prevState: { message: string | null },
   formData: FormData,
 ) => {

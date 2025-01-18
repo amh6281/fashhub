@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { handleSubmit } from '@/handlers/signup';
+import { signUp } from '@/handlers/signup';
 import { showMessage } from '@/utils/handleError';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,7 +20,7 @@ import { useFormStatus } from 'react-dom';
 const SignUpModal = () => {
   const router = useRouter();
   const { pending } = useFormStatus();
-  const [state, formAction] = useActionState(handleSubmit, { message: null });
+  const [state, formAction] = useActionState(signUp, { message: null });
 
   return (
     <Card className='relative w-full max-w-md rounded-lg bg-white p-6 shadow-lg'>
