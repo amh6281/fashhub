@@ -1,8 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
-const MainPage = () => {
+const MainPage = async () => {
+  const session = await auth();
+
+  if (session?.user) redirect('/home');
+
   return (
     <div className='flex min-h-screen flex-col items-center justify-center bg-gray-50'>
       {/* 로고 */}
