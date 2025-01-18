@@ -1,6 +1,5 @@
 'use server';
 
-import { signIn } from '@/auth';
 import { baseUrl } from '@/config';
 import { redirect } from 'next/navigation';
 
@@ -20,19 +19,12 @@ export const signUp = async (
       body: formData,
       credentials: 'include', // 쿠키 전달 (계정 있는 경우 회원가입X) / 동일 출처, 교차 출처 요청 전송
     });
-    console.log(res);
     if (res.status === 403) return { message: 'user_exists' };
     shouldRedirect = true;
-    // 회원가입 + 로그인
-    // await signIn('credentials', {
-    //   username: formData.get('id'),
-    //   password: formData.get('password'),
-    //   redirect: false,
-    // });
   } catch (err) {
     console.error(err);
     return { message: null };
   }
-  // if (shouldRedirect) redirect('/login');
+  if (shouldRedirect) redirect('/flow/login');
   return { message: null };
 };
