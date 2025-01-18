@@ -46,8 +46,8 @@ const SignUpModal = () => {
           <div className='mb-4 flex flex-col gap-2'>
             <Input type='email' placeholder='이메일 주소' name='email' />
             <Input type='password' placeholder='비밀번호' name='password' />
-            <Input type='text' placeholder='성명' name='name' />
-            <Input type='text' placeholder='사용자 이름' name='nickname' />
+            <Input type='text' placeholder='성명' name='fullname' />
+            <Input type='text' placeholder='사용자 이름' name='username' />
           </div>
           <Button
             type='submit'
