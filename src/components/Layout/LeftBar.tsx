@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { LogoutBtn } from '../Auth';
 
 const LeftBar = () => {
   const segment = useSelectedLayoutSegment();
@@ -65,18 +66,8 @@ const LeftBar = () => {
           </Link>
         </Button>
       </div>
-      {/* user */}
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-2'>
-          <div className='relative h-10 w-10 overflow-hidden rounded-full'>
-            <Image src='/logo.png' alt='logo' width={100} height={100} />
-          </div>
-          <div className='flex flex-col'>
-            <span className='font-bold'>mmmh_0803</span>
-            <span className='text-sm text-gray-500'>@amh6281</span>
-          </div>
-        </div>
-      </div>
+      {/* logout button */}
+      <LogoutBtn />
     </div>
   );
 };
