@@ -3,15 +3,25 @@
 // export { auth as middleware } from '@/auth';
 
 import { auth } from '@/auth';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { baseUrl } from './config';
 
-export const middleware = async () => {
+export const middleware = async (request: NextRequest) => {
   const session = await auth();
-  if (!session) return NextResponse.redirect(`${baseUrl}/flow/login`);
-};
-
-// 적용할 라우트 (로그인을 해야만 접근 가능한 라우트)
-export const config = {
-  matcher: ['/compose/post', '/home', '/explore', '/messages', '/search'],
+  if (
+    ['/compose/tweet', '/home', '/explore', '/messages', '/search'].includes(
+      request.nextUrl.pathname,
+    ) &&
+    !session
+  ) {
+    return NextResponse.redirect(`${baseUrl}/flow/login`);
+  }
+  //  if (
+  //    request.nextUrl.pathname.startsWith('/admin') &&
+  //    session?.userData.role !== 'admin'
+  //  ) {
+  //    return NextResponse.redirect(
+  //      'http://localhost:3000/권한없음_알리는_모달_주소',
+  //    );
+  //  }
 };
