@@ -1,13 +1,12 @@
 'use client';
 
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 const LogoutBtn = () => {
   const router = useRouter();
-  const { data } = useSession();
-  console.log(data);
+
   const handleLogout = () => {
     // client 라우팅을 사용하기 위해서 redirect: false 옵션 추가
     signOut({ redirect: false }).then(() => router.replace('/'));
