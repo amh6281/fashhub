@@ -15,7 +15,7 @@ export const signUp = async (
 
   let shouldRedirect = false;
   try {
-    const res = await fetch(`${baseUrl}/api/users}`, {
+    const res = await fetch(`${baseUrl}/api/users`, {
       method: 'post',
       body: formData,
       credentials: 'include', // 쿠키 전달 (계정 있는 경우 회원가입X) / 동일 출처, 교차 출처 요청 전송
