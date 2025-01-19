@@ -1,3 +1,4 @@
+import RQProvider from '@/components/common/RQProvider';
 import { LeftBar, RightBar } from '@/components/Layout';
 
 interface LayoutProps {
@@ -11,13 +12,15 @@ const Layout = ({ children, modal }: LayoutProps) => {
       <div className='px-8'>
         <LeftBar />
       </div>
-      <div className='min-w-[600px] flex-1 border-x-[1px] border-gray-400'>
-        {children}
-        {modal}
-      </div>
-      <div className='mx-8 flex flex-1'>
-        <RightBar />
-      </div>
+      <RQProvider>
+        <div className='min-w-[600px] flex-1 border-x-[1px] border-gray-400'>
+          {children}
+          {modal}
+        </div>
+        <div className='mx-8 flex flex-1'>
+          <RightBar />
+        </div>
+      </RQProvider>
     </div>
   );
 };
