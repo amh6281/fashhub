@@ -1,24 +1,11 @@
-import { Post } from '@/components/common/post';
+import { PostRecommends } from '@/components/common/post';
 import { PostForm, Tab } from '@/components/Home';
-import { baseUrl } from '@/config';
+import { getRecommendedPosts } from '@/lib/api';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-
-const getRecommendedPosts = async () => {
-  const res = await fetch(`${baseUrl}/api/postRecommends`, {
-    next: {
-      tags: ['posts', 'recommend'], // 캐싱 업데이트 시 필요한 태그
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return res.json();
-};
 
 const Home = async () => {
   const queryClient = new QueryClient();
@@ -34,7 +21,7 @@ const Home = async () => {
       <HydrationBoundary state={dehydratedState}>
         <Tab />
         <PostForm />
-        <Post />
+        <PostRecommends />
       </HydrationBoundary>
     </div>
   );
