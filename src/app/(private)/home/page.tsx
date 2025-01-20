@@ -10,9 +10,8 @@ import {
 const getRecommendedPosts = async () => {
   const res = await fetch(`${baseUrl}/api/postRecommends`, {
     next: {
-      tags: ['posts', 'recommend'],
+      tags: ['posts', 'recommend'], // 캐싱 업데이트 시 필요한 태그
     },
-    cache: 'no-store',
   });
 
   if (!res.ok) {
