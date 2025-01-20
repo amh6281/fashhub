@@ -1,11 +1,10 @@
+import { PostImageType } from './PostImage';
+import { UserType } from './User';
+
 export interface PostType {
   postId: number;
   content: string;
-  User: {
-    id: string;
-    nickname: string;
-    image: string;
-  };
+  User: UserType;
   createdAt: Date;
-  Images: any[];
+  Images: PostImageType[];
 }
