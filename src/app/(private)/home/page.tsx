@@ -1,6 +1,6 @@
 import { PostRecommends } from '@/components/common/post';
 import { PostForm, Tab } from '@/components/Home';
-import { getRecommendedPosts } from '@/lib/api';
+import { getPostRecommends } from '@/lib/api';
 import {
   dehydrate,
   HydrationBoundary,
@@ -11,8 +11,8 @@ const Home = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     // queryKey가 posts, recommend이면 getRecommendedPosts 함수를 호출
-    queryKey: ['posts', 'recommend'],
-    queryFn: getRecommendedPosts,
+    queryKey: ['posts', 'recommends'],
+    queryFn: getPostRecommends,
   });
   const dehydratedState = dehydrate(queryClient);
 

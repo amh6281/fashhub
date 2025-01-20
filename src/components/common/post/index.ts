@@ -3,3 +3,4 @@ export { default as PostArticle } from './PostArticle';
 export { default as PostInteractions } from './PostInteractions';
 export { default as CommentForm } from './CommentForm';
 export { default as PostImages } from './PostImages';
+export { default as PostRecommends } from './PostRecommends';

@@ -1,20 +1,29 @@
 import { http, HttpResponse } from 'msw';
+import { faker } from '@faker-js/faker';
 import { baseUrl } from '@/config';
+
+function generateDate() {
+  const lastWeek = new Date(Date.now());
+  lastWeek.setDate(lastWeek.getDate() - 7);
+  return faker.date.between({
+    from: lastWeek,
+    to: Date.now(),
+  });
+}
+
+const user = {
+  userId: 1,
+  fullname: '홍길동',
+  username: 'test',
+};
 
 export const handlers = [
   http.post(`${baseUrl}/api/login`, () => {
-    return HttpResponse.json(
-      {
-        userId: 1,
-        fullname: '홍길동',
-        username: 'test',
+    return HttpResponse.json(user, {
+      headers: {
+        'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/',
       },
-      {
-        headers: {
-          'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/',
-        },
-      },
-    );
+    });
   }),
   http.post(`${baseUrl}/api/logout`, () => {
     console.log('로그아웃');
@@ -35,5 +44,32 @@ export const handlers = [
       },
     });
   }),
+  http.get(`${baseUrl}/api/postRecommends`, () => {
+    return HttpResponse.json([
+      {
+        postId: 1,
+        User: user,
+        content: `${1} Z.com is so marvelous. I'm gonna buy that.`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 2,
+        User: user,
+        content: `${2} Z.com is so marvelous. I'm gonna buy that.`,
+        Images: [
+          { imageId: 1, link: faker.image.urlLoremFlickr() },
+          { imageId: 2, link: faker.image.urlLoremFlickr() },
+        ],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 3,
+        User: user,
+        content: `${3} Z.com is so marvelous. I'm gonna buy that.`,
+        Images: [],
+        createdAt: generateDate(),
+      },
+    ]);
+  }),
 ];
-// 서버가 클라이언트 브라우저에 connect.sid라는 이름의 쿠키를 설정, 값을 msw-cookie로 지정

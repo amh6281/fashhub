@@ -1,9 +1,9 @@
 import { baseUrl } from '@/config';
 
-export const getRecommendedPosts = async () => {
+export const getPostRecommends = async () => {
   const res = await fetch(`${baseUrl}/api/postRecommends`, {
     next: {
-      tags: ['posts', 'recommend'], // 캐싱 업데이트 시 필요한 태그
+      tags: ['posts', 'recommends'], // 캐싱 업데이트 시 필요한 태그
     },
   });
 
