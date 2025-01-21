@@ -9,6 +9,8 @@ const PostRecommends = () => {
   const { data } = useQuery<PostType[]>({
     queryKey: ['posts', 'recommends'],
     queryFn: getPostRecommends,
+    staleTime: 60 * 1000, // fresh에서 stale로 전환되는 시간 (1분)
+    gcTime: 5 * 60 * 1000, // 캐시에 저장된 데이터가 제거되는 시간 (5분)
   });
 
   return data?.map((post) => <Post key={post.postId} post={post} />);
