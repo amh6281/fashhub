@@ -32,7 +32,7 @@ const PostImage = ({ post }: PostImageProps) => {
           href={`/${post.User.id}/status/${post.postId}/photo/${image.imageId}`}
         >
           <Image
-            src={image.src}
+            src={image.link}
             alt='post image'
             width={500}
             height={300}

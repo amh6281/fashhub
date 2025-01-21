@@ -2,6 +2,6 @@ import { PostType } from './Post';
 
 export interface PostImageType {
   link: string;
-  imageId: string;
+  imageId: number;
   Post?: PostType;
 }

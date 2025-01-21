@@ -5,39 +5,18 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import PostArticle from './PostArticle';
 import PostInteractions from './PostInteractions';
-import { faker } from '@faker-js/faker';
 import PostImages from './PostImages';
+import { PostType } from '@/types/Post';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 interface PostProps {
   hideImage?: boolean;
+  post: PostType;
 }
 
-const Post = ({ hideImage }: PostProps) => {
-  const dummy = {
-    postId: 1,
-    User: {
-      id: 'musk',
-      nickname: 'Elon Musk',
-      image:
-        'https://pbs.twimg.com/profile_images/1295975423654977537/dHw9JcrK_400x400.jpg',
-    },
-    content:
-      'lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, animi. Laborum commodi aliquam alias molestias odio, ab in, reprehenderit excepturi temporibus, ducimus necessitatibus fugiat iure nam voluptas soluta pariatur inventore.',
-    createdAt: new Date(),
-    Images: [] as any[],
-  };
-
-  if (Math.random() > 0.5 && !hideImage) {
-    dummy.Images.push(
-      { imageId: 1, src: faker.image.urlLoremFlickr() },
-      { imageId: 2, src: faker.image.urlLoremFlickr() },
-      { imageId: 3, src: faker.image.urlLoremFlickr() },
-    );
-  }
-
+const Post = ({ hideImage, post }: PostProps) => {
   return (
     <PostArticle>
       {/* post type */}
@@ -86,7 +65,7 @@ const Post = ({ hideImage }: PostProps) => {
             reprehenderit excepturi temporibus, ducimus necessitatibus fugiat
             iure nam voluptas soluta pariatur inventore.
           </p>
-          <PostImages post={dummy} />
+          {!hideImage && <PostImages post={post} />}
           <PostInteractions />
         </div>
       </div>
