@@ -49,14 +49,14 @@ export const handlers = [
       {
         postId: 1,
         User: user,
-        content: `${1} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${1} Recommend post`,
         Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
         createdAt: generateDate(),
       },
       {
         postId: 2,
         User: user,
-        content: `${2} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${2} Recommend post`,
         Images: [
           { imageId: 1, link: faker.image.urlLoremFlickr() },
           { imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -66,7 +66,35 @@ export const handlers = [
       {
         postId: 3,
         User: user,
-        content: `${3} Z.com is so marvelous. I'm gonna buy that.`,
+        content: `${3} Recommend post`,
+        Images: [],
+        createdAt: generateDate(),
+      },
+    ]);
+  }),
+  http.get(`${baseUrl}/api/followingPosts`, () => {
+    return HttpResponse.json([
+      {
+        postId: 1,
+        User: user,
+        content: `${1} Following post`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 2,
+        User: user,
+        content: `${2} Following post`,
+        Images: [
+          { imageId: 1, link: faker.image.urlLoremFlickr() },
+          { imageId: 2, link: faker.image.urlLoremFlickr() },
+        ],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 3,
+        User: user,
+        content: `${3} Following post`,
         Images: [],
         createdAt: generateDate(),
       },
