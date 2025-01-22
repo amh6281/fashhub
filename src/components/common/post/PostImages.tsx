@@ -29,7 +29,7 @@ const PostImage = ({ post }: PostImageProps) => {
       {post.Images.map((image) => (
         <Link
           key={image.imageId}
-          href={`/${post.User.id}/status/${post.postId}/photo/${image.imageId}`}
+          href={`/${post.User.userId}/status/${post.postId}/photo/${image.imageId}`}
         >
           <Image
             src={image.link}

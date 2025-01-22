@@ -45,26 +45,19 @@ const Post = ({ hideImage, post }: PostProps) => {
           {/* top */}
           <div className='flex w-full justify-between'>
             <Link href='/' className='flex gap-4'>
-              <div className='relative h-10 w-10 overflow-hidden rounded-full'>
-                <UserCircle size={36} className='text-gray-500' />
-              </div>
               <div className='flex flex-wrap items-center gap-2'>
-                <h1 className='text-md font-bold hover:underline'>amh6281</h1>
-                <span className='text-cool-600'>@mmmh_0803</span>
-
+                <h1 className='text-md font-bold hover:underline'>
+                  {post.User.fullname}
+                </h1>
+                <span className='text-cool-600'>@{post.User.username}</span>
                 <span className='text-sm text-cool-600'>
-                  {dayjs().fromNow(true)}
+                  {dayjs(post.createdAt).fromNow(true)}
                 </span>
               </div>
             </Link>
           </div>
           {/* text & media */}
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum,
-            animi. Laborum commodi aliquam alias molestias odio, ab in,
-            reprehenderit excepturi temporibus, ducimus necessitatibus fugiat
-            iure nam voluptas soluta pariatur inventore.
-          </p>
+          <p>{post.content}</p>
           {!hideImage && <PostImages post={post} />}
           <PostInteractions />
         </div>
