@@ -4,3 +4,5 @@ export { default as PostInteractions } from './PostInteractions';
 export { default as CommentForm } from './CommentForm';
 export { default as PostImages } from './PostImages';
 export { default as PostRecommends } from './PostRecommends';
+export { default as FollowingPosts } from './FollowingPosts';
+export { default as PostList } from './PostList';

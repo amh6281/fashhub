@@ -1,4 +1,4 @@
-import { PostRecommends } from '@/components/common/post';
+import { PostList } from '@/components/common/post';
 import { PostForm, Tab } from '@/components/Home';
 import { getPostRecommends } from '@/lib/api';
 import {
@@ -21,7 +21,7 @@ const Home = async () => {
       <HydrationBoundary state={dehydratedState}>
         <Tab />
         <PostForm />
-        <PostRecommends />
+        <PostList />
       </HydrationBoundary>
     </div>
   );
