@@ -1,6 +1,5 @@
 import { BackButton, SearchInput } from '@/components/common';
-import { Post } from '@/components/common/post';
-import { Tab } from '@/components/Search';
+import { SearchResult, Tab } from '@/components/Search';
 import React from 'react';
 
 interface SearchProps {
@@ -8,7 +7,7 @@ interface SearchProps {
 }
 
 const Search = async ({ searchParams }: SearchProps) => {
-  const { query } = await searchParams;
+  const searchQuery = await searchParams;
 
   return (
     <div className='min-h-screen py-4'>
@@ -16,18 +15,14 @@ const Search = async ({ searchParams }: SearchProps) => {
       <div className='mb-4 flex items-center gap-4 px-4'>
         <BackButton />
         <div className='w-full'>
-          <SearchInput query={query} />
+          <SearchInput searchQuery={searchQuery} />
         </div>
       </div>
       {/* tabs */}
       <div className='mt-4'>
         <Tab />
       </div>
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      <SearchResult searchQuery={searchQuery} />
     </div>
   );
 };
