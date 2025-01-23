@@ -1,4 +1,7 @@
 import { baseUrl } from '@/config';
+import { PostType } from '@/types/Post';
+import { SearchQueryKey } from '@/types/SearchQuery';
+import { QueryFunction } from '@tanstack/react-query';
 
 export const getPostRecommends = async () => {
   const res = await fetch(`${baseUrl}/api/postRecommends`, {
@@ -25,3 +28,24 @@ export const getFollowingPosts = async () => {
   }
   return res.json();
 };
+
+export const getSearchResult: QueryFunction<
+  PostType[],
+  SearchQueryKey
+> = async ({ queryKey }) => {
+  const [, , searchQuery] = queryKey;
+  const res = await fetch(
+    `${baseUrl}/api/search/${searchQuery.query}?${searchQuery.toString()}`, // searchQuery.toString은 filter, pf 등 query 제외 나머지 값
+    {
+      next: {
+        tags: ['posts', 'search', searchQuery.query], // 객체 형태의 Tag는 불가
+      },
+      cache: 'no-store',
+    },
+  );
+  if (!res.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return res.json();
+};
+// queryKey params는 useQuery 사용 시 자동으로 들어가는 값
