@@ -19,7 +19,7 @@ const SearchInput = ({ searchQuery }: SearchInputProps) => {
       <input
         type='search'
         name='query'
-        defaultValue={searchQuery.query}
+        defaultValue={searchQuery?.query}
         placeholder='검색'
         className='bg-transparent outline-none'
       />

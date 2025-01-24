@@ -49,3 +49,16 @@ export const getSearchResult: QueryFunction<
   return res.json();
 };
 // queryKey params는 useQuery 사용 시 자동으로 들어가는 값
+
+export const getTrends = async () => {
+  const res = await fetch(`${baseUrl}/api/trends`, {
+    next: {
+      tags: ['trends'],
+    },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return res.json();
+};

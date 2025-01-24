@@ -140,4 +140,55 @@ export const handlers = [
       },
     ]);
   }),
+  http.get(`${baseUrl}/api/users/:userId/posts`, ({ params }) => {
+    const { userId } = params;
+    return HttpResponse.json([
+      {
+        postId: 1,
+        User: user,
+        content: `${1} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 2,
+        User: user,
+        content: `${2} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 3,
+        User: user,
+        content: `${3} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 4,
+        User: user,
+        content: `${4} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 5,
+        User: user,
+        content: `${5} ${userId}의 게시글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+    ]);
+  }),
+  http.get(`${baseUrl}/api/trends`, () => {
+    return HttpResponse.json([
+      { tagId: 1, title: '청자켓', count: 1264 },
+      { tagId: 2, title: '데님 팬츠', count: 1264 },
+      { tagId: 3, title: '라이더 자켓', count: 1264 },
+      { tagId: 4, title: '남성 헬스복', count: 1264 },
+      { tagId: 5, title: '와이드 데님', count: 1264 },
+      { tagId: 6, title: '목폴라 티', count: 1264 },
+      { tagId: 7, title: '셔츠', count: 1264 },
+    ]);
+  }),
 ];
