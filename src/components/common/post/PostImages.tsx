@@ -7,7 +7,7 @@ interface PostImageProps {
 }
 
 const PostImage = ({ post }: PostImageProps) => {
-  if (!post.Images || !post.Images.length) return null;
+  if (!post?.Images || !post?.Images.length) return null;
 
   const getGridClass = (imageCount: number) => {
     switch (imageCount) {

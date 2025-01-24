@@ -47,17 +47,17 @@ const Post = ({ hideImage, post }: PostProps) => {
             <Link href='/' className='flex gap-4'>
               <div className='flex flex-wrap items-center gap-2'>
                 <h1 className='text-md font-bold hover:underline'>
-                  {post.User.fullname}
+                  {post?.User.fullname}
                 </h1>
-                <span className='text-cool-600'>@{post.User.username}</span>
+                <span className='text-cool-600'>@{post?.User.username}</span>
                 <span className='text-sm text-cool-600'>
-                  {dayjs(post.createdAt).fromNow(true)}
+                  {dayjs(post?.createdAt).fromNow(true)}
                 </span>
               </div>
             </Link>
           </div>
           {/* text & media */}
-          <p>{post.content}</p>
+          <p>{post?.content}</p>
           {!hideImage && <PostImages post={post} />}
           <PostInteractions />
         </div>
