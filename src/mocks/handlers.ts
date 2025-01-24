@@ -191,4 +191,7 @@ export const handlers = [
       { tagId: 7, title: '셔츠', count: 1264 },
     ]);
   }),
+  http.get(`${baseUrl}/api/followRecommends`, () => {
+    return HttpResponse.json([user]);
+  }),
 ];

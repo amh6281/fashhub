@@ -33,7 +33,7 @@ const TrendTags = ({ hideInExplore }: { hideInExplore?: boolean }) => {
               className='flex items-center justify-between'
               key={trend.tagId}
             >
-              <Link href='/search?query=트렌드'>
+              <Link href={`/search?query=${trend.title}`}>
                 <span className='text-sm text-gray-400'>실시간 트렌드</span>
                 <h2 className='font-semibold'>{trend.title}</h2>
                 <span className='text-sm text-gray-400'>

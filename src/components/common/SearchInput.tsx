@@ -2,7 +2,7 @@ import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
 import Form from 'next/form';
 
 interface SearchInputProps {
-  searchQuery: {
+  searchQuery?: {
     query?: string;
     filter?: string;
     pf?: string;
