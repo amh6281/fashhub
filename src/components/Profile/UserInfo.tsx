@@ -17,7 +17,7 @@ import { UserType } from '@/types/User';
 import { getUser } from '@/lib/api';
 
 const UserInfo = ({ username }: { username: string }) => {
-  const { data } = useQuery<
+  const { data, error } = useQuery<
     UserType, // queryFn의 반환값
     Error, // queryFn 실패 시 에러 반환 타입
     UserType, // queryFn 성공 시 반환하는 데이터 타입
@@ -28,7 +28,23 @@ const UserInfo = ({ username }: { username: string }) => {
     staleTime: 60 * 1000, // fresh -> stale, 5분이라는 기준
     gcTime: 300 * 1000,
   });
-  console.log(data);
+
+  if (error) {
+    return (
+      <div className='relative w-full'>
+        {/* cover */}
+        {/* TODO: Cover image가 없을경우에만 gradient */}
+        <div
+          className={cn(
+            'relative flex aspect-[3/1] w-full items-center justify-center text-xl font-bold',
+            // !coverImg && 'bg-gradient-to-r from-blue-500 to-purple-500',
+          )}
+        >
+          계정이 존재하지 않습니다.
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <div className='sticky top-0 z-10 flex items-center gap-4 border-b-[1px] border-gray-300 p-4 backdrop-blur-md'>
