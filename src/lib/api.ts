@@ -134,3 +134,22 @@ export const getSinglePost = async ({
 
   return res.json();
 };
+
+export const getComments: QueryFunction<
+  PostType[],
+  [string, string, string]
+> = async ({ queryKey }) => {
+  const [, postId] = queryKey;
+  const res = await fetch(`${baseUrl}/api/posts/${postId}/comments`, {
+    next: {
+      tags: ['posts', postId, 'comments'],
+    },
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+};

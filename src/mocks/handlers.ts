@@ -229,4 +229,44 @@ export const handlers = [
       createdAt: generateDate(),
     });
   }),
+  http.get(`${baseUrl}/api/posts/:postId/comments`, ({ params }) => {
+    const { postId } = params;
+    return HttpResponse.json([
+      {
+        postId: 1,
+        User: user,
+        content: `${1} 게시글 ${postId}의 답글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 2,
+        User: user,
+        content: `${2} 게시글 ${postId}의 답글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 3,
+        User: user,
+        content: `${3} 게시글 ${postId}의 답글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 4,
+        User: user,
+        content: `${4} 게시글 ${postId}의 답글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+      {
+        postId: 5,
+        User: user,
+        content: `${5} 게시글 ${postId}의 답글`,
+        Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+        createdAt: generateDate(),
+      },
+    ]);
+  }),
 ];
