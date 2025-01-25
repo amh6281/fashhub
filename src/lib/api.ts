@@ -113,3 +113,24 @@ export const getUserPosts: QueryFunction<
   }
   return res.json();
 };
+
+// QueryFunction or {queryKey: [string, string]} 형태로 사용 가능
+export const getSinglePost = async ({
+  queryKey,
+}: {
+  queryKey: [string, string];
+}) => {
+  const [, postId] = queryKey;
+  const res = await fetch(`${baseUrl}/api/posts/${postId}`, {
+    next: {
+      tags: ['posts', postId],
+    },
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+};

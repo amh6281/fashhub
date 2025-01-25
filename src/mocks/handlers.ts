@@ -207,4 +207,26 @@ export const handlers = [
   http.get(`${baseUrl}/api/followRecommends`, () => {
     return HttpResponse.json([user]);
   }),
+  http.get(`${baseUrl}/api/posts/:postId`, ({ params }) => {
+    const { postId } = params;
+    if (parseInt(postId as string) > 10) {
+      return HttpResponse.json(
+        { message: 'no_such_post' },
+        {
+          status: 404,
+        },
+      );
+    }
+    return HttpResponse.json({
+      postId,
+      User: user,
+      content: `${1} 게시글 아이디 ${postId}의 내용`,
+      Images: [
+        { imageId: 1, link: faker.image.urlLoremFlickr() },
+        { imageId: 2, link: faker.image.urlLoremFlickr() },
+        { imageId: 3, link: faker.image.urlLoremFlickr() },
+      ],
+      createdAt: generateDate(),
+    });
+  }),
 ];
