@@ -1,6 +1,7 @@
 import { baseUrl } from '@/config';
 import { PostType } from '@/types/Post';
 import { SearchQueryKey } from '@/types/SearchQuery';
+import { UserType } from '@/types/User';
 import { QueryFunction } from '@tanstack/react-query';
 
 export const getPostRecommends = async () => {
@@ -72,6 +73,43 @@ export const getFollowRecommends = async () => {
   });
   if (!res.ok) {
     throw new Error('Network response was not ok');
+  }
+  return res.json();
+};
+
+export const getUser: QueryFunction<UserType, [string, string]> = async ({
+  queryKey,
+}) => {
+  const [, username] = queryKey;
+  const res = await fetch(`${baseUrl}/api/users/${username}`, {
+    next: {
+      tags: ['users', username],
+    },
+    credentials: 'include',
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return res.json();
+};
+
+export const getUserPosts: QueryFunction<
+  PostType[],
+  [string, string, string]
+> = async ({ queryKey }) => {
+  const [, , username] = queryKey;
+  const res = await fetch(`${baseUrl}/api/users/${username}/posts?cursor=0`, {
+    next: {
+      tags: ['posts', 'users', username],
+    },
+    credentials: 'include',
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
   }
   return res.json();
 };

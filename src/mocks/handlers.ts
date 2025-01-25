@@ -180,6 +180,19 @@ export const handlers = [
       },
     ]);
   }),
+  http.get(`${baseUrl}/api/users/:userId`, ({ params }) => {
+    const { userId } = params;
+    const found = [user].find((v) => v.userId === Number(userId));
+    if (found) {
+      return HttpResponse.json(found);
+    }
+    return HttpResponse.json(
+      { message: 'no_such_user' },
+      {
+        status: 404,
+      },
+    );
+  }),
   http.get(`${baseUrl}/api/trends`, () => {
     return HttpResponse.json([
       { tagId: 1, title: '청자켓', count: 1264 },
