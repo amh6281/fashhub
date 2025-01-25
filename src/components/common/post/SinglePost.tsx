@@ -6,7 +6,12 @@ import { useQuery } from '@tanstack/react-query';
 import Error from 'next/error';
 import Post from './Post';
 
-const SinglePost = ({ postId }: { postId: string }) => {
+interface SinglePostProps {
+  postId: string;
+  hideImage?: boolean;
+}
+
+const SinglePost = ({ postId, hideImage }: SinglePostProps) => {
   const { data, error } = useQuery<PostType, Error, PostType, [string, string]>(
     {
       queryKey: ['posts', postId],
@@ -20,7 +25,7 @@ const SinglePost = ({ postId }: { postId: string }) => {
 
   if (!data) return null;
 
-  return <Post post={data} />;
+  return <Post post={data} hideImage={hideImage} />;
 };
 
 export default SinglePost;
