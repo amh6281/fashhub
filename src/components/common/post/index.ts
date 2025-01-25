@@ -7,3 +7,4 @@ export { default as PostRecommends } from './PostRecommends';
 export { default as FollowingPosts } from './FollowingPosts';
 export { default as PostList } from './PostList';
 export { default as SinglePost } from './SinglePost';
+export { default as Comments } from './Comments';

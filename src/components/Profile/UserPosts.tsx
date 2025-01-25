@@ -19,7 +19,7 @@ const UserPosts = ({ username }: { username: string }) => {
     gcTime: 5 * 60 * 1000, // 캐시에 저장된 데이터가 제거되는 시간 (5분)
   });
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData(['users', username]);
+  const user = queryClient.getQueryData(['users', username]); // 캐시된 데이터 조회
 
   if (user) {
     return data?.map((post) => <Post key={post.postId} post={post} />);
