@@ -1,11 +1,12 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 const LogoutBtn = () => {
   const router = useRouter();
+  const { data } = useSession();
 
   const handleLogout = () => {
     // client 라우팅을 사용하기 위해서 redirect: false 옵션 추가
@@ -22,8 +23,8 @@ const LogoutBtn = () => {
           <Image src='/logo.png' alt='logo' width={100} height={100} />
         </div>
         <div className='flex flex-col'>
-          <span className='font-bold'>mmmh_0803</span>
-          <span className='text-sm text-gray-500'>@amh6281</span>
+          <span className='font-bold'>{data?.user?.email}</span>
+          <span className='text-sm text-gray-500'>@{data?.user?.name}</span>
         </div>
       </div>
     </div>
