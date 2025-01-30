@@ -4,8 +4,12 @@ import { SearchQueryKey } from '@/types/SearchQuery';
 import { UserType } from '@/types/User';
 import { QueryFunction } from '@tanstack/react-query';
 
-export const getPostRecommends = async () => {
-  const res = await fetch(`${baseUrl}/api/postRecommends`, {
+export const getPostRecommends = async ({
+  pageParam,
+}: {
+  pageParam: number;
+}) => {
+  const res = await fetch(`${baseUrl}/api/postRecommends?cursor=${pageParam}`, {
     next: {
       tags: ['posts', 'recommends'], // 캐싱 업데이트 시 필요한 태그 (서버 캐싱, react-query 캐싱 아님)
     },

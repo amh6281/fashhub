@@ -44,19 +44,21 @@ export const handlers = [
       },
     });
   }),
-  http.get(`${baseUrl}/api/postRecommends`, () => {
+  http.get(`${baseUrl}/api/postRecommends?cursor=0`, ({ request }) => {
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
     return HttpResponse.json([
       {
-        postId: 1,
+        postId: cursor + 1,
         User: user,
-        content: `${1} Recommend post`,
+        content: `${cursor + 1} Recommend post`,
         Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
         createdAt: generateDate(),
       },
       {
-        postId: 2,
+        postId: cursor + 2,
         User: user,
-        content: `${2} Recommend post`,
+        content: `${cursor + 2} Recommend post`,
         Images: [
           { imageId: 1, link: faker.image.urlLoremFlickr() },
           { imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -64,9 +66,9 @@ export const handlers = [
         createdAt: generateDate(),
       },
       {
-        postId: 3,
+        postId: cursor + 3,
         User: user,
-        content: `${3} Recommend post`,
+        content: `${cursor + 3} Recommend post`,
         Images: [],
         createdAt: generateDate(),
       },
