@@ -1,12 +1,12 @@
 'use client';
 
 import { getFollowingPosts } from '@/lib/api';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import Post from './Post';
 import { PostType } from '@/types/Post';
 
 const FollowingPosts = () => {
-  const { data } = useQuery<PostType[]>({
+  const { data } = useSuspenseQuery<PostType[]>({
     queryKey: ['posts', 'followings'],
     queryFn: getFollowingPosts,
     staleTime: 60 * 1000, // fresh에서 stale로 전환되는 시간 (1분)

@@ -6,6 +6,8 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
+import { Suspense } from 'react';
+import Loading from './loading';
 
 const Home = async () => {
   const queryClient = new QueryClient();
@@ -22,7 +24,9 @@ const Home = async () => {
       <HydrationBoundary state={dehydratedState}>
         <Tab />
         <PostForm />
-        <PostList />
+        <Suspense fallback={<Loading />}>
+          <PostList />
+        </Suspense>
       </HydrationBoundary>
     </div>
   );
