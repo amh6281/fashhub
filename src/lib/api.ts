@@ -13,6 +13,7 @@ export const getPostRecommends = async ({
     next: {
       tags: ['posts', 'recommends'], // 캐싱 업데이트 시 필요한 태그 (서버 캐싱, react-query 캐싱 아님)
     },
+    cache: 'force-cache', // 서버사이드 렌더링 시 캐싱 사용, invalidate 시 데이터 다시 요청
   });
 
   if (!res.ok) {
@@ -26,6 +27,7 @@ export const getFollowingPosts = async () => {
     next: {
       tags: ['posts', 'followings'], // 캐싱 업데이트 시 필요한 태그 (서버 캐싱, react-query 캐싱 아님)
     },
+    cache: 'force-cache',
   });
 
   if (!res.ok) {
