@@ -7,7 +7,8 @@ import { AuthSession } from '@/components/Auth';
 // 서버 환경에서만 실행 (서버사이드 렌더링, 서버 컴포넌트)
 if (
   process.env.NEXT_RUNTIME === 'nodejs' &&
-  process.env.NODE_ENV !== 'production'
+  process.env.NODE_ENV !== 'production' &&
+  process.env.MSW_ENABLED !== 'false'
 ) {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { server } = require('@/mocks/http');
