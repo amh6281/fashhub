@@ -44,10 +44,10 @@ const SignUpModal = () => {
       <CardContent className='mt-4'>
         <form action={formAction}>
           <div className='mb-4 flex flex-col gap-2'>
-            <Input type='email' placeholder='이메일 주소' name='email' />
-            <Input type='password' placeholder='비밀번호' name='password' />
-            <Input type='text' placeholder='성명' name='fullname' />
-            <Input type='text' placeholder='사용자 이름' name='username' />
+            <Input type='text' name='id' placeholder='성명' />
+            <Input type='text' name='nickname' placeholder='사용자 이름' />
+            <Input type='text' name='password' placeholder='비밀번호' />
+            <Input type='file' name='image' accept='image/*' />
           </div>
           <Button
             type='submit'
@@ -60,7 +60,7 @@ const SignUpModal = () => {
         <p className='mt-6 text-center text-sm text-gray-600'>
           계정이 있으신가요?{' '}
           <Link
-            href='/login'
+            href='/flow/login'
             className='font-medium text-[#0095f6] hover:underline'
           >
             로그인

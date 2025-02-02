@@ -7,10 +7,10 @@ export const signUp = async (
   prevState: { message: string | null },
   formData: FormData,
 ) => {
-  if (!formData.get('email')) return { message: 'no_email' };
+  if (!formData.get('id')) return { message: 'no_id' };
+  if (!formData.get('nickname')) return { message: 'no_nickname' };
   if (!formData.get('password')) return { message: 'no_password' };
-  if (!formData.get('fullname')) return { message: 'no_fullname' };
-  if (!formData.get('username')) return { message: 'no_username' };
+  if (!formData.get('image')) return { message: 'no_image' };
 
   let shouldRedirect = false;
   try {

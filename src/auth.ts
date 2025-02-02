@@ -37,8 +37,8 @@ export const {
         }
         const user = await authResponse.json();
         return {
-          email: user.fullname,
-          name: user.username,
+          email: user.id,
+          name: user.nickname,
           image: user.image,
           ...user,
         };
