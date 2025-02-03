@@ -26,6 +26,7 @@ export const {
             }),
           },
         );
+        // 로그인 실패
         if (!authResponse.ok) {
           const credentialsSignin = new CredentialsSignin();
           if (authResponse.status === 404) {

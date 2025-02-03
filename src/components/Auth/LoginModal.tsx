@@ -28,7 +28,7 @@ const LoginModal = () => {
       await signIn('credentials', {
         username,
         password,
-        redirect: false,
+        redirect: false, // redirect false일 경우 에러여도 200
       });
       router.replace('/home');
     } catch (err) {
