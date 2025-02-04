@@ -9,12 +9,15 @@ export const getPostRecommends = async ({
 }: {
   pageParam: number;
 }) => {
-  const res = await fetch(`${baseUrl}/api/postRecommends?cursor=${pageParam}`, {
-    next: {
-      tags: ['posts', 'recommends'], // 캐싱 업데이트 시 필요한 태그 (서버 캐싱, react-query 캐싱 아님)
+  const res = await fetch(
+    `${baseUrl}/api/posts/recommends?cursor=${pageParam}`,
+    {
+      next: {
+        tags: ['posts', 'recommends'], // 캐싱 업데이트 시 필요한 태그 (서버 캐싱, react-query 캐싱 아님)
+      },
+      cache: 'force-cache', // 서버사이드 렌더링 시 캐싱 사용, invalidate 시 데이터 다시 요청
     },
-    cache: 'force-cache', // 서버사이드 렌더링 시 캐싱 사용, invalidate 시 데이터 다시 요청
-  });
+  );
 
   if (!res.ok) {
     throw new Error('Network response was not ok');
@@ -23,7 +26,7 @@ export const getPostRecommends = async ({
 };
 
 export const getFollowingPosts = async () => {
-  const res = await fetch(`${baseUrl}/api/followingPosts`, {
+  const res = await fetch(`${baseUrl}/api/posts/followings`, {
     next: {
       tags: ['posts', 'followings'], // 캐싱 업데이트 시 필요한 태그 (서버 캐싱, react-query 캐싱 아님)
     },
@@ -58,7 +61,7 @@ export const getSearchResult: QueryFunction<
 // queryKey params는 useQuery 사용 시 자동으로 들어가는 값
 
 export const getTrends = async () => {
-  const res = await fetch(`${baseUrl}/api/trends`, {
+  const res = await fetch(`${baseUrl}/api/hashtags/trends`, {
     next: {
       tags: ['trends'],
     },
@@ -71,7 +74,7 @@ export const getTrends = async () => {
 };
 
 export const getFollowRecommends = async () => {
-  const res = await fetch(`${baseUrl}/api/followRecommends`, {
+  const res = await fetch(`${baseUrl}/api/users/followRecommends`, {
     next: {
       tags: ['users', 'followRecommends'],
     },
@@ -155,6 +158,20 @@ export const getComments: QueryFunction<
 
   if (!res.ok) {
     throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+};
+
+export const createPost = async (formData: FormData) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
+    method: 'post',
+    credentials: 'include',
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to create post');
   }
 
   return res.json();
