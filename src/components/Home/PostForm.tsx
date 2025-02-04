@@ -10,6 +10,8 @@ import { useRef, useState } from 'react';
 import { Textarea } from '../ui/textarea';
 import Image from 'next/image';
 import { createPost } from '@/lib/api';
+import { useQueryClient } from '@tanstack/react-query';
+import { PostType } from '@/types/Post';
 
 const PostForm = () => {
   const imageRef = useRef<HTMLInputElement>(null);
@@ -17,8 +19,27 @@ const PostForm = () => {
   const [preview, setPreview] = useState<
     Array<{ dataUrl: string; file: File } | null>
   >([]);
+  const queryClient = useQueryClient();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const updateQueryData = (queryKey: [string, string], newPost: PostType) => {
+    queryClient.setQueryData(queryKey, (prevData: { pages: PostType[][] }) => {
+      // 이전 데이터가 없는 경우, 새로운 게시물 반환
+      if (!prevData) return { pages: [[newPost]] };
+
+      // 이전 데이터가 있는 경우, 첫 번째 페이지에 새로운 게시물을 추가한 페이지 배열을 생성
+      const updatedPages = prevData.pages.map((page, index) =>
+        index === 0 ? [newPost, ...page] : page,
+      );
+
+      // 업데이트된 페이지 배열을 포함하는 새로운 데이터 객체를 반환
+      return {
+        ...prevData, // 이전 데이터의 나머지 속성을 복사
+        pages: updatedPages, // 업데이트된 페이지 배열로 교체
+      };
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -29,7 +50,19 @@ const PostForm = () => {
       }
     });
 
-    createPost(formData);
+    try {
+      const res = await createPost(formData);
+      if (res.status === 201) {
+        setContent('');
+        setPreview([]);
+        const newPost = await res.json();
+
+        updateQueryData(['posts', 'recommends'], newPost);
+        updateQueryData(['posts', 'followings'], newPost);
+      }
+    } catch {
+      alert('업로드 중 에러가 발생했습니다.');
+    }
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,13 +71,10 @@ const PostForm = () => {
     Array.from(e.target.files).forEach((file, index) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview((prevPreview) => {
-          const prev = [...prevPreview];
-          prev[index] = {
-            dataUrl: reader.result as string,
-            file,
-          };
-          return prev;
+        setPreview((prev) => {
+          const next = [...prev];
+          next[index] = { dataUrl: reader.result as string, file };
+          return next;
         });
       };
       reader.readAsDataURL(file);
