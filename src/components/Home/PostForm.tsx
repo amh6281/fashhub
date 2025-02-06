@@ -10,7 +10,7 @@ import { useRef, useState } from 'react';
 import { Textarea } from '../ui/textarea';
 import Image from 'next/image';
 import { createPost } from '@/lib/api';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PostType } from '@/types/Post';
 
 const PostForm = () => {
@@ -20,6 +20,36 @@ const PostForm = () => {
     Array<{ dataUrl: string; file: File } | null>
   >([]);
   const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append('content', content);
+      preview.forEach((p) => {
+        if (p) {
+          formData.append('images', p.file);
+        }
+      });
+      return createPost(formData);
+    },
+    // response는 mutationFn의 응답값(return createPost(formData), variable: mutationFn의 매개변수(e), onMutate의 return 값
+    async onSuccess(response, variable, context) {
+      const newPost = response;
+
+      setContent('');
+      setPreview([]);
+
+      updateQueryData(['posts', 'recommends'], newPost);
+      updateQueryData(['posts', 'followings'], newPost);
+    },
+
+    onError(err) {
+      console.log(err);
+      alert('업로드 중 에러가 발생했습니다.');
+    },
+  });
 
   const updateQueryData = (queryKey: [string, string], newPost: PostType) => {
     queryClient.setQueryData(queryKey, (prevData: { pages: PostType[][] }) => {
@@ -37,32 +67,6 @@ const PostForm = () => {
         pages: updatedPages, // 업데이트된 페이지 배열로 교체
       };
     });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append('content', content);
-    preview.forEach((p) => {
-      if (p) {
-        formData.append('images', p.file);
-      }
-    });
-
-    try {
-      const res = await createPost(formData);
-      if (res.status === 201) {
-        setContent('');
-        setPreview([]);
-        const newPost = await res.json();
-
-        updateQueryData(['posts', 'recommends'], newPost);
-        updateQueryData(['posts', 'followings'], newPost);
-      }
-    } catch {
-      alert('업로드 중 에러가 발생했습니다.');
-    }
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +88,7 @@ const PostForm = () => {
   return (
     <form
       className='flex gap-4 border-b border-gray-300 p-4'
-      onSubmit={handleSubmit}
+      onSubmit={mutation.mutate}
     >
       {/* avatar */}
       <div className='relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full'>
