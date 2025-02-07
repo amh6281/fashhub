@@ -30,6 +30,7 @@ export const getFollowingPosts = async () => {
     next: {
       tags: ['posts', 'followings'], // 캐싱 업데이트 시 필요한 태그 (서버 캐싱, react-query 캐싱 아님)
     },
+    credentials: 'include',
     cache: 'force-cache',
   });
 
@@ -44,8 +45,9 @@ export const getSearchResult: QueryFunction<
   SearchQueryKey
 > = async ({ queryKey }) => {
   const [, , searchQuery] = queryKey;
+  const urlSearchParams = new URLSearchParams(searchQuery);
   const res = await fetch(
-    `${baseUrl}/api/search/${searchQuery.query}?${searchQuery.toString()}`, // searchQuery.toString은 filter, pf 등 query 제외 나머지 값
+    `${baseUrl}/api/posts?${urlSearchParams.toString()}`, // searchQuery.toString은 filter, pf 등 query 제외 나머지 값
     {
       next: {
         tags: ['posts', 'search', searchQuery.query], // 객체 형태의 Tag는 불가
