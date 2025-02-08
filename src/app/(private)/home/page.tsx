@@ -9,6 +9,11 @@ import {
 import { Suspense } from 'react';
 import Loading from './loading';
 
+export const metadata = {
+  title: 'FashHub/홈',
+  description: '홈',
+};
+
 const Home = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchInfiniteQuery({
