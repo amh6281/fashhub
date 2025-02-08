@@ -1,15 +1,30 @@
 import { BackButton } from '@/components/common';
 import { CommentForm, Comments, SinglePost } from '@/components/common/post';
-import { getComments, getSinglePost } from '@/lib/api';
+import { getComments, getSinglePost, getUser } from '@/lib/api';
+import { PostType } from '@/types/Post';
+import { UserType } from '@/types/User';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
+import { Metadata } from 'next';
 
 interface StatusPageProps {
   params: Promise<{ postId: string }>;
 }
+
+// export  const generateMetadata = async({params}: StatusPageProps): Promise<Metadata> =>{
+//   const {username, id} = await params;
+//   const [user, post]: [UserType, PostType] = await Promise.all([
+//     getUser({queryKey: ["users", username]}),
+//     getSinglePost({queryKey: ["posts", id]}),
+//   ]);
+//   return {
+//     title: `${user.nickname} : ${post.content}`,
+//     description: post.content,
+//   }
+// }
 
 const StatusPage = async ({ params }: StatusPageProps) => {
   const { postId } = await params;

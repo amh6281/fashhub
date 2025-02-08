@@ -1,5 +1,6 @@
 import { UserInfo, UserPosts } from '@/components/Profile';
 import { getUser, getUserPosts } from '@/lib/api';
+import { UserType } from '@/types/User';
 import {
   dehydrate,
   HydrationBoundary,
@@ -9,6 +10,19 @@ import {
 interface UserPageParams {
   params: Promise<{ username: string }>;
 }
+
+// export const generateMetadata = async ({ params }: UserPageParams) => {
+//   const { username } = await params;
+//   const user: UserType = await getUser({
+//     queryKey: ['users', username],
+//     signal: new AbortController().signal,
+//     meta: undefined,
+//   });
+//   return {
+//     title: `${user.nickname} (${user.id}) / Z`,
+//     description: `${user.nickname} (${user.id}) 프로필`,
+//   };
+// };
 
 const UserPage = async ({ params }: UserPageParams) => {
   const { username } = await params;
