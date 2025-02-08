@@ -178,3 +178,16 @@ export const createPost = async (formData: FormData) => {
 
   return res.json();
 };
+
+export const createHeart = async (postId: number) => {
+  const res = await fetch(`${baseUrl}/api/posts/${postId}/heart`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to create heart');
+  }
+
+  return res.json();
+};
