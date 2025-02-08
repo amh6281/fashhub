@@ -38,7 +38,7 @@ const PhotoModalImage = ({ postId }: { postId: string }) => {
 
       {/* Post Interactions */}
       <div className='absolute bottom-4 left-1/2 -translate-x-1/2 transform'>
-        <PostInteractions />
+        <PostInteractions post={data} />
       </div>
     </div>
   );

@@ -1,11 +1,156 @@
 'use client';
 
+import { createHeart, deleteHeart } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { PostType } from '@/types/Post';
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 
-const PostInteractions = () => {
-  const commented = false;
-  const reposted = true;
-  const liked = false;
+const PostInteractions = ({ post }: { post: PostType }) => {
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+  const postId = post.postId;
+
+  const commented = !!post.Comments?.find(
+    (v) => v.userId === session?.user?.email,
+  );
+  const reposted = !!post.Reposts?.find(
+    (v) => v.userId === session?.user?.email,
+  );
+  const liked = !!post.Hearts?.find((v) => v.userId === session?.user?.email);
+
+  const heart = useMutation({
+    mutationFn: () => createHeart(postId),
+    onMutate() {
+      const queryCache = queryClient.getQueryCache();
+      const queryKeys = queryCache.getAll().map((cache) => cache.queryKey);
+      queryKeys.forEach((queryKey) => {
+        // queryKey가 post인 경우
+        if (queryKey[0] === 'posts') {
+          // queryKey에 해당하는 캐시 데이터를 가져옴
+          const value: PostType | InfiniteData<PostType[]> | undefined =
+            queryClient.getQueryData(queryKey);
+          if (value && 'pages' in value) {
+            const obj = value.pages.flat().find((v) => v.postId === postId);
+            if (obj) {
+              // 존재는 하는지
+              const pageIndex = value.pages.findIndex((page) =>
+                page.includes(obj),
+              );
+              const index = value.pages[pageIndex].findIndex(
+                (v) => v.postId === postId,
+              );
+              // 기존 데이터를 얕은 복사하여 새로운 객체 생성
+              const shallow = { ...value };
+              value.pages = { ...value.pages };
+              value.pages[pageIndex] = [...value.pages[pageIndex]];
+              shallow.pages[pageIndex][index] = {
+                ...shallow.pages[pageIndex][index],
+                Hearts: [{ userId: session?.user?.email as string }],
+                _count: {
+                  ...shallow.pages[pageIndex][index]._count,
+                  Hearts: shallow.pages[pageIndex][index]._count.Hearts + 1,
+                },
+              };
+              // 업데이트된 데이터를 캐시에 설정
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          } else if (value) {
+            // 싱글 포스트인 경우
+            if (value.postId === postId) {
+              const shallow = {
+                ...value,
+                Hearts: [{ userId: session?.user?.email as string }],
+                _count: {
+                  ...value._count,
+                  Hearts: value._count.Hearts + 1,
+                },
+              };
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      });
+    },
+    // error/success 상관없이 posts로 시작하는 쿼리들 다시 가져오기
+    // 그러나 하트 눌렀다고 전체 게시물 다시 가져오기는 비효율적
+    // onSettled() {
+    //   queryClient.invalidateQueries({
+    //     queryKey: ['posts'],
+    //   });
+    // },
+  });
+
+  const unHeart = useMutation({
+    mutationFn: () => deleteHeart(postId),
+    onMutate() {
+      const queryCache = queryClient.getQueryCache();
+      const queryKeys = queryCache.getAll().map((cache) => cache.queryKey);
+      queryKeys.forEach((queryKey) => {
+        if (queryKey[0] === 'posts') {
+          const value: PostType | InfiniteData<PostType[]> | undefined =
+            queryClient.getQueryData(queryKey);
+          if (value && 'pages' in value) {
+            const obj = value.pages.flat().find((v) => v.postId === postId);
+            if (obj) {
+              // 존재는 하는지
+              const pageIndex = value.pages.findIndex((page) =>
+                page.includes(obj),
+              );
+              const index = value.pages[pageIndex].findIndex(
+                (v) => v.postId === postId,
+              );
+              const shallow = { ...value };
+              value.pages = { ...value.pages };
+              value.pages[pageIndex] = [...value.pages[pageIndex]];
+              shallow.pages[pageIndex][index] = {
+                ...shallow.pages[pageIndex][index],
+                // 필터링 (제거)
+                Hearts: shallow.pages[pageIndex][index].Hearts.filter(
+                  (v) => v.userId !== session?.user?.email,
+                ),
+                // count 감소
+                _count: {
+                  ...shallow.pages[pageIndex][index]._count,
+                  Hearts: shallow.pages[pageIndex][index]._count.Hearts - 1,
+                },
+              };
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          } else if (value) {
+            // 싱글 포스트인 경우
+            if (value.postId === postId) {
+              const shallow = {
+                ...value,
+                Hearts: value.Hearts.filter(
+                  (v) => v.userId !== session?.user?.email,
+                ),
+                _count: {
+                  ...value._count,
+                  Hearts: value._count.Hearts - 1,
+                },
+              };
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      });
+    },
+  });
+
+  const onClickHeart = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+
+    if (liked) {
+      unHeart.mutate();
+    } else {
+      heart.mutate();
+    }
+  };
 
   return (
     <div className='my-2 flex items-center justify-between gap-4 text-cool-600 lg:gap-16'>
@@ -28,7 +173,7 @@ const PostInteractions = () => {
               d='M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z'
             />
           </svg>
-          <span className='text-sm'>157</span>
+          <span className='text-sm'>{post._count.Comments}</span>
         </div>
         {/* repost */}
         <div
@@ -48,7 +193,7 @@ const PostInteractions = () => {
               d='M4.75 3.79l4.603 4.3-1.706 1.82L6 8.38v7.37c0 .97.784 1.75 1.75 1.75H13V20H7.75c-2.347 0-4.25-1.9-4.25-4.25V8.38L1.853 9.91.147 8.09l4.603-4.3zm11.5 2.71H11V4h5.25c2.347 0 4.25 1.9 4.25 4.25v7.37l1.647-1.53 1.706 1.82-4.603 4.3-4.603-4.3 1.706-1.82L18 15.62V8.25c0-.97-.784-1.75-1.75-1.75z'
             />
           </svg>
-          <span className='text-sm'>157</span>
+          <span className='text-sm'>{post._count.Reposts}</span>
         </div>
         {/* like */}
         <div
@@ -56,7 +201,7 @@ const PostInteractions = () => {
             'flex cursor-pointer items-center gap-2 hover:text-pink-500',
             liked && 'text-pink-500',
           )}
-          onClick={(e) => e.stopPropagation()}
+          onClick={onClickHeart}
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -69,7 +214,7 @@ const PostInteractions = () => {
               d='M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z'
             />
           </svg>
-          <span className='text-sm'>157</span>
+          <span className='text-sm'>{post._count.Hearts}</span>
         </div>
       </div>
       <div className='flex items-center gap-2'>

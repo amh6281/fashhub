@@ -63,7 +63,7 @@ const Post = ({ hideImage, post }: PostProps) => {
           {/* text & media */}
           <p>{post?.content}</p>
           {!hideImage && <PostImages post={post} />}
-          <PostInteractions />
+          <PostInteractions post={post} />
         </div>
       </div>
     </PostArticle>

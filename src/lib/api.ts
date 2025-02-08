@@ -180,13 +180,32 @@ export const createPost = async (formData: FormData) => {
 };
 
 export const createHeart = async (postId: number) => {
-  const res = await fetch(`${baseUrl}/api/posts/${postId}/heart`, {
-    method: 'POST',
-    credentials: 'include',
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${postId}/heart`,
+    {
+      method: 'post',
+      credentials: 'include',
+    },
+  );
 
   if (!res.ok) {
     throw new Error('Failed to create heart');
+  }
+
+  return res.json();
+};
+
+export const deleteHeart = async (postId: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${postId}/heart`,
+    {
+      method: 'delete',
+      credentials: 'include',
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to delete heart');
   }
 
   return res.json();
