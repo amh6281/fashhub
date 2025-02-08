@@ -13,8 +13,7 @@ const PostArticle = ({ children, post }: PostArticleProps) => {
   return (
     <div
       className='cursor-pointer border-y-[1px] border-cool-400 p-4 transition-colors hover:bg-cool-200'
-      // onClick={() => router.push(`/${post.User.id}/status/${post.postId}`)}
-      onClickCapture={() => router.push(`/1/status/1`)}
+      onClick={() => router.push(`/${post.User.userId}/status/${post.postId}`)}
     >
       {children}
     </div>

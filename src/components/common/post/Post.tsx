@@ -18,7 +18,7 @@ interface PostProps {
 
 const Post = ({ hideImage, post }: PostProps) => {
   return (
-    <PostArticle>
+    <PostArticle post={post}>
       {/* post type */}
       <div className='from-bold mb-2 flex items-center gap-2 text-sm text-cool-500'>
         <svg
@@ -44,7 +44,11 @@ const Post = ({ hideImage, post }: PostProps) => {
         <div className='flex flex-1 flex-col gap-2'>
           {/* top */}
           <div className='flex w-full justify-between'>
-            <Link href='/' className='flex gap-4'>
+            <Link
+              href={`/${post.User.id}`}
+              className='flex gap-4'
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className='flex flex-wrap items-center gap-2'>
                 <h1 className='text-md font-bold hover:underline'>
                   {post?.User.fullname}

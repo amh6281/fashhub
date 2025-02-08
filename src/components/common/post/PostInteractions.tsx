@@ -56,6 +56,7 @@ const PostInteractions = () => {
             'flex cursor-pointer items-center gap-2 hover:text-pink-500',
             liked && 'text-pink-500',
           )}
+          onClick={(e) => e.stopPropagation()}
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
