@@ -15,4 +15,6 @@ export interface PostType {
     Reposts: number;
     Comments: number;
   };
+  Original?: PostType; // 재게시
+  Parent?: PostType; // 답글
 }

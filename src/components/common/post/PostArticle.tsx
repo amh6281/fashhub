@@ -10,10 +10,14 @@ interface PostArticleProps {
 
 const PostArticle = ({ children, post }: PostArticleProps) => {
   const router = useRouter();
+  let target = post;
+  if (post.Original) target = post.Original;
   return (
     <div
       className='cursor-pointer border-y-[1px] border-cool-400 p-4 transition-colors hover:bg-cool-200'
-      onClick={() => router.push(`/${post.User.userId}/status/${post.postId}`)}
+      onClick={() =>
+        router.push(`/${target.User.userId}/status/${target.postId}`)
+      }
     >
       {children}
     </div>
