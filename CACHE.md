@@ -1,8 +1,8 @@
 # Next.js 캐싱 전략
 
-Next.js에서는 성능 최적화를 위해 다양한 캐싱 전략을 제공합니다.  
-최대한 빌드 타임에 최적화를 수행하여 성능을 향상시키는 것이 중요합니다.
-
+Next.js에서는 성능 최적화를 위해 다양한 캐싱 전략을 제공  
+최대한 빌드 타임에 최적화를 수행하여 성능을 향상시키는 것이 중요
+![Image](https://github.com/user-attachments/assets/28071d1d-b680-4a76-adbc-8bcc5593c21c)
 ---
 
 ## 1. Request Memoization (요청 메모이제이션)
