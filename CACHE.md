@@ -3,6 +3,7 @@
 Next.js에서는 성능 최적화를 위해 다양한 캐싱 전략을 제공  
 최대한 빌드 타임에 최적화를 수행하여 성능을 향상시키는 것이 중요
 ![Image](https://github.com/user-attachments/assets/28071d1d-b680-4a76-adbc-8bcc5593c21c)
+
 ---
 
 ## 1. Request Memoization (요청 메모이제이션)
@@ -63,3 +64,56 @@ Next.js에서는 성능 최적화를 위해 다양한 캐싱 전략을 제공
    - `revalidateTag(태그)` → 특정 데이터만 갱신.
 
 효율적인 캐싱 전략을 활용하면 **불필요한 네트워크 요청을 줄이고 성능을 최적화**할 수 있습니다. 🚀
+
+---
+
+## 3. Full Route Cache (전체 라우트 캐시)
+
+- **페이지 전체 캐싱**  
+  페이지(라우트)를 통째로 캐싱하여 성능을 향상
+
+- **데이터 변경 시 캐시 갱신**  
+  데이터가 수정되는 순간, Full Route Cache도 함께 갱신
+
+- **데이터 캐시 의존성**  
+  데이터 캐시 설정에 크게 영향을 받는다.
+
+- **정적 사이트에 적합**  
+  정적 사이트가 아니라면 사용을 권장하지 않는다.
+
+- **동적 API 사용 시 비활성화**
+
+  - `await header`, `cookie`, `searchParams` 등 동적 API를 사용하는 경우
+  - `export const dynamic = 'force-dynamic'` 또는 `export const revalidate = 0`로 설정된 경우  
+    → Full Route Cache는 자동으로 비활성화
+
+- **개발 모드에서 아이콘 확인**
+  - 좌측 하단에 **번개 아이콘**이 있으면 정적 라우트임을 의미
+  - 번개 아이콘이 없으면 동적 라우트
+  - `export const dynamic = 'force-dynamic'` 선언 시 번개 아이콘이 사라진다.
+
+---
+
+### 4. Router Cache (라우터 캐시)
+
+- **캐싱 대상**  
+  `Layout.tsx`와 `Loading.tsx` 파일만 캐싱
+
+- **캐시 무효화**  
+  `router.refresh()` 사용 시, Layout과 Loading의 라우터 캐시가 초기화
+
+- **브라우저 기반 캐시**  
+  이 캐시는 서버가 아닌 브라우저(클라이언트)에서 작동
+
+---
+
+### 추가 정보
+
+- **서버 측 캐시**
+
+  - **Data Cache**와 **Full Route Cache**는 서버에서 작동
+  - Data Cache를 사용하지 않으면 Full Route Cache는 자동으로 비활성화
+  - Full Route Cache를 사용하지 않아도 Data Cache는 별도로 작동
+
+- **클라이언트 측 캐시**
+  - **Router Cache**는 브라우저(클라이언트)에서 작동
