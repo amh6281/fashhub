@@ -1,7 +1,12 @@
+import { auth } from '@/auth';
 import { BackButton } from '@/components/common';
 import { Message } from '@/components/Messages';
+import { getRooms } from '@/lib/api';
 
-const Messages = () => {
+const Messages = async () => {
+  const session = await auth();
+  const rooms = session?.user?.email ? await getRooms(session.user.email) : [];
+
   return (
     <div className='min-h-screen bg-gray-50'>
       {/* profile title */}
@@ -9,8 +14,9 @@ const Messages = () => {
         <BackButton />
         <h1 className='text-lg font-bold text-gray-900'>메세지</h1>
       </div>
-      <Message />
-      <Message />
+      {rooms.map((room) => (
+        <Message key={room.room} room={room} />
+      ))}
     </div>
   );
 };
