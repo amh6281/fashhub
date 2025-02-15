@@ -5,7 +5,7 @@ import { getRooms } from '@/lib/api';
 
 const Messages = async () => {
   const session = await auth();
-  const rooms = session?.user?.email ? await getRooms(session.user.email) : [];
+  // const rooms = session?.user?.email ? await getRooms(session.user.email) : [];
 
   return (
     <div className='min-h-screen bg-gray-50'>
@@ -14,9 +14,9 @@ const Messages = async () => {
         <BackButton />
         <h1 className='text-lg font-bold text-gray-900'>메세지</h1>
       </div>
-      {rooms.map((room) => (
+      {/* {rooms.map((room) => (
         <Message key={room.room} room={room} />
-      ))}
+      ))} */}
     </div>
   );
 };

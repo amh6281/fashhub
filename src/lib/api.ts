@@ -4,7 +4,7 @@ import { Room } from '@/types/Room';
 import { SearchQueryKey } from '@/types/SearchQuery';
 import { UserType } from '@/types/User';
 import { QueryFunction } from '@tanstack/react-query';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 
 export const getPostRecommends = async ({
   pageParam,
@@ -222,7 +222,7 @@ export const getRooms = async (id: string): Promise<Room[]> => {
       },
       credentials: 'include',
       cache: 'no-store',
-      headers: { Cookie: (await cookies()).toString() }, // 서버 컴포넌트용
+      // headers: { Cookie: (await cookies()).toString() }, // 서버 컴포넌트용
     },
   );
 

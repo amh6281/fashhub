@@ -5,11 +5,27 @@ import dayjs from 'dayjs';
 import { BackButton } from '@/components/common';
 import Image from 'next/image';
 import Link from 'next/link';
+import MessageForm from '@/components/Messages/MessageForm';
+import { auth } from '@/auth';
+import { QueryClient } from '@tanstack/react-query';
+import { getUser } from '@/lib/api';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
-const Room = () => {
+const Room = async ({ params }: { params: { room: string } }) => {
+  const session = await auth();
+  const queryClient = new QueryClient();
+
+  const ids = params.room
+    .split('-')
+    .filter((id) => id !== session?.user?.email);
+
+  await queryClient.prefetchQuery({
+    queryKey: ['users', ids[0]],
+    queryFn: getUser,
+  });
+
   const user = {
     id: 'hero',
     nickname: '영웅',
@@ -31,9 +47,8 @@ const Room = () => {
       createdAt: new Date(),
     },
   ];
-
   return (
-    <main className='min-h-screen p-4'>
+    <main className='flex min-h-screen flex-col p-4'>
       {/* header */}
       <div className='mb-4 flex items-center gap-4 border-b border-gray-300 pb-4'>
         <BackButton />
@@ -53,26 +68,29 @@ const Room = () => {
       </div>
 
       {/* messages */}
-      <div className='space-y-4'>
-        {messages.map((m) => (
-          <div
-            key={m.messageId}
-            className={`flex flex-col ${
-              m.id === 'amh' ? 'items-end' : 'items-start'
-            }`}
-          >
+      <div className='flex flex-1 flex-col justify-between'>
+        <div className='space-y-4 overflow-y-auto'>
+          {messages.map((m) => (
             <div
-              className={`max-w-xs rounded-lg p-2 ${
-                m.id === 'amh' ? 'bg-cool-700 text-white' : 'bg-cool-300'
+              key={m.messageId}
+              className={`flex flex-col ${
+                m.id === 'amh' ? 'items-end' : 'items-start'
               }`}
             >
-              {m.content}
+              <div
+                className={`max-w-xs rounded-lg p-2 ${
+                  m.id === 'amh' ? 'bg-cool-700 text-white' : 'bg-cool-300'
+                }`}
+              >
+                {m.content}
+              </div>
+              <div className='text-xs text-gray-500'>
+                {dayjs(m.createdAt).format('YYYY년 MM월 DD일 A HH시 mm분')}
+              </div>
             </div>
-            <div className='text-xs text-gray-500'>
-              {dayjs(m.createdAt).format('YYYY년 MM월 DD일 A HH시 mm분')}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <MessageForm />
       </div>
     </main>
   );
