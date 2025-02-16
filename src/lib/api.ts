@@ -232,3 +232,29 @@ export const getRooms = async (id: string): Promise<Room[]> => {
 
   return res.json();
 };
+
+export const getMessages = async ({
+  pageParam,
+  queryKey,
+}: {
+  pageParam: number;
+  queryKey: [string, { senderId: string; receiverId: string }, string];
+}) => {
+  const [, userInfo] = queryKey;
+  const res = await fetch(
+    `${baseUrl}/api/users/${userInfo.senderId}/rooms/${userInfo.receiverId}?cursor=${pageParam}`,
+    {
+      next: {
+        tags: ['rooms'],
+      },
+      credentials: 'include',
+      cache: 'no-store',
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+};
