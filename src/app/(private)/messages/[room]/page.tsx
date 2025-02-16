@@ -9,6 +9,7 @@ import MessageForm from '@/components/Messages/MessageForm';
 import { auth } from '@/auth';
 import { QueryClient } from '@tanstack/react-query';
 import { getUser } from '@/lib/api';
+import WebSocketComponent from '@/components/WebSocketComponent';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
@@ -49,6 +50,7 @@ const Room = async ({ params }: { params: { room: string } }) => {
   ];
   return (
     <main className='flex min-h-screen flex-col p-4'>
+      <WebSocketComponent />
       {/* header */}
       <div className='mb-4 flex items-center gap-4 border-b border-gray-300 pb-4'>
         <BackButton />
@@ -90,7 +92,7 @@ const Room = async ({ params }: { params: { room: string } }) => {
             </div>
           ))}
         </div>
-        <MessageForm />
+        <MessageForm receiverId={ids[0]} />
       </div>
     </main>
   );

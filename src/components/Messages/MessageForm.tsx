@@ -1,15 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useSocket } from '@/utils/useSocket';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
-const MessageForm = () => {
+const MessageForm = ({ receiverId }: { receiverId: string }) => {
+  const { data: session } = useSession();
+
   const [message, setMessage] = useState('');
+  const [socket] = useSocket();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // socket.io
+    socket?.emit('sendMessage', {
+      senderId: session?.user?.email,
+      receiverId,
+      message,
+    });
     setMessage('');
   };
+
+  useEffect(() => {
+    socket?.on(`receiveMessage`, () => {});
+
+    return () => {
+      socket?.off(`receiveMessage`);
+    };
+  }, []);
 
   return (
     <form
